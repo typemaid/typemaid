@@ -67,10 +67,22 @@ const features = [
   { icon: 'M4 6h6v5H4zM14 13h6v5h-6zM7 11v4h7', title: 'The diagram is the program', body: 'Branches, loops, parallel steps and for-each blocks are drawn in Mermaid. No model decides which step runs next.' },
   { icon: 'M5 12l4 4L19 6', title: 'Typed end to end', body: 'Every step declares its input and output with Zod. Mistakes are reported before anything runs, with the file, line and a fix.' },
   { icon: 'M12 3a4 4 0 1 1 0 8a4 4 0 0 1 0-8zM4 21c0-4 4-6 8-6s8 2 8 6', title: 'People in the loop', body: 'A human step pauses the run. Save it, and resume it hours later with the answer, even from another process.' },
-  { icon: 'M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z', title: 'Any AI model', body: 'Agent steps and model calls inside tools go through the Vercel AI SDK, so any provider it supports works.' },
+  { icon: 'M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z', title: 'Any AI model', body: 'Agent steps and model calls go through the Vercel AI SDK: OpenAI, Anthropic, Gemini, Ollama, LiteLLM and every other provider it supports.' },
   { icon: 'M4 7c0-2 16-2 16 0v10c0 2-16 2-16 0zM4 7c0 2 16 2 16 0M4 12c0 2 16 2 16 0', title: 'Survives restarts', body: 'Runs are saved to SQLite, Postgres or libSQL. A run that crashed picks up from the last finished step.' },
   { icon: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 1 0 6a3 3 0 0 1 0-6z', title: 'See every flow', body: 'typemaid view draws every workflow, lists each step with its fields and shows problems as you save.' },
 ];
+
+const providers = ['OpenAI', 'Anthropic', 'Google Gemini', 'Vertex AI', 'Azure OpenAI', 'Amazon Bedrock', 'Mistral', 'xAI Grok', 'Groq', 'DeepSeek', 'Cohere', 'Together AI', 'Fireworks', 'Cerebras', 'Perplexity', 'OpenRouter', 'Ollama', 'LiteLLM'];
+
+const modelCode = `import { openai } from '@ai-sdk/openai';
+import { defineAI } from 'typemaid/ai';
+
+export const ai = defineAI({ model: openai('gpt-5-mini') });
+
+// Switch provider by changing one line:
+// defineAI({ model: anthropic('claude-haiku-4-5') })
+// defineAI({ model: ollama('llama3.2') })
+// defineAI({ model: litellm('gpt-4o-mini') })`;
 
 const packages = [
   { name: 'typemaid', body: 'run, resume, check, plus typemaid/ai and typemaid/sqlite' },
@@ -84,11 +96,11 @@ const packages = [
     <section class="stage">
       <div class="hero">
         <div class="hero-head">
-          <p class="hero-eyebrow">TypeScript SDK</p>
+          <p class="hero-eyebrow">Built on the Vercel AI SDK</p>
           <h1>Transform your Mermaid diagrams into AI workflows.</h1>
         </div>
         <div class="hero-body">
-          <p class="lede">typemaid runs Mermaid flowcharts as typed workflows. Each box is a TypeScript function with a Zod schema. The diagram decides what runs next; runs pause for people, retry failed steps and resume after a restart.</p>
+          <p class="lede">A TypeScript SDK that turns your Mermaid diagrams into AI workflows. Works with any LLM: OpenAI, Anthropic, Gemini, Ollama, LiteLLM and every AI SDK provider.</p>
           <div class="cta">
             <a class="button primary" href="/docs/getting-started/">Get started</a>
             <a class="button ghost" href="/docs/examples/support-triage/">Read the example</a>
@@ -145,6 +157,22 @@ const packages = [
             </div>
           </article>
         ))}
+      </div>
+    </section>
+
+    <section class="models">
+      <div>
+        <p class="section-kicker">Any LLM</p>
+        <h2>Works with every model the AI SDK supports.</h2>
+        <p class="models-lede">Agent steps and model calls go through the <a href="https://ai-sdk.dev">Vercel AI SDK</a>. Use any of its providers, a local model through Ollama, or LiteLLM and any OpenAI-compatible server. New models work as soon as their provider does.</p>
+        <ul class="provider-list" aria-label="Supported providers">
+          {providers.map((p) => <li>{p}</li>)}
+        </ul>
+        <a class="models-link" href="/docs/models/#providers">See every provider and how to connect it →</a>
+      </div>
+      <div class="pane">
+        <div class="code-title">ai.ts</div>
+        <Code code={modelCode} lang="ts" theme="github-dark" />
       </div>
     </section>
 

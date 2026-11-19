@@ -297,7 +297,15 @@ pre.astro-code { background-color: var(--code-bg) !important; }
 [data-hero-flow] .flow-dot { fill: #bfe0ff; filter: drop-shadow(0 0 6px #4f9cf9) drop-shadow(0 0 14px #4f9cf9); }
 
 /* How it works */
-.how, .features-wrap, .packages, .final { max-width: 1180px; margin: 0 auto; padding: 96px 24px 0; }
+.how, .models, .features-wrap, .packages, .final { max-width: 1180px; margin: 0 auto; padding: 96px 24px 0; }
+.models { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.models-lede { color: var(--ink-soft); font-size: 17px; margin: 0 0 22px; }
+.provider-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 22px; }
+.provider-list li { padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg-soft); color: var(--ink-soft); font-size: 13.5px; }
+.models-link { font-weight: 600; font-size: 15px; }
+.models .pane { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.models .pane .code-title { margin: 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; }
+.models .pane pre.astro-code { margin: 0; border: 0; border-radius: 0; font-size: 13px; }
 .how > h2, .features-wrap > h2 { max-width: 720px; }
 .how-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 36px; align-items: start; }
 .how-step { min-width: 0; }
@@ -423,10 +431,10 @@ pre.astro-code { background-color: var(--code-bg) !important; }
   .canvas { min-height: 0; padding: 18px 10px; }
   .canvas svg { max-height: 640px; }
   .window-title { display: none; }
-  .how-grid, .features, .packages { grid-template-columns: 1fr; }
+  .how-grid, .features, .packages, .models { grid-template-columns: 1fr; }
   .how-step header { min-height: 0; }
   .home h2, .final h2 { font-size: 30px; letter-spacing: -0.8px; }
-  .how, .features-wrap, .packages, .final { padding-top: 64px; }
+  .how, .models, .features-wrap, .packages, .final { padding-top: 64px; }
   .pager { grid-template-columns: 1fr; }
   .pager-link.next { grid-column: 1; }
 }

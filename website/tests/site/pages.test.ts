@@ -155,3 +155,13 @@ describe('top bar and loading', () => {
     expect(headers).toMatch(/\/_astro\/\*\n\s+Cache-Control: public, max-age=31536000, immutable/);
   });
 });
+
+describe('landing page: any LLM', () => {
+  it('lists AI SDK providers, LiteLLM and Ollama, and links to the providers guide', () => {
+    const { $ } = loadPage('/');
+    const providers = $('.provider-list li').map((_, li) => $(li).text()).get();
+    for (const name of ['OpenAI', 'Anthropic', 'Google Gemini', 'Ollama', 'LiteLLM', 'OpenRouter']) expect(providers).toContain(name);
+    expect($('.models-link').attr('href')).toBe('/docs/models/#providers');
+    expect($('.models h2').text()).toMatch(/AI SDK/);
+  });
+});

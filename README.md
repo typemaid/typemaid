@@ -29,10 +29,10 @@ Status: v0. The API may still change before 1.0; breaking changes are listed in 
 ## Install
 
 ```bash
-npm install typemaid zod
+npm i typemaid
 ```
 
-Works the same with `bun add`, `pnpm add` or `yarn add`. Zod 4.2 or newer is required. Nothing else is installed with it.
+npm and Bun install Zod with it. With pnpm or Yarn, add Zod yourself: `pnpm add typemaid zod`. Zod 4.2 or newer is required.
 
 The workflow viewer is a separate, optional package, so projects that only run workflows stay small:
 

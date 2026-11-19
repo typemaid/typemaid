@@ -5,10 +5,10 @@ A workflow is two files: a diagram that says what runs in what order, and a tool
 ## 1. Install
 
 ```bash
-npm install typemaid zod
+npm i typemaid
 ```
 
-Needs Node 22 or newer, or Bun 1.2 or newer. Zod must be 4.2 or newer.
+npm and Bun install Zod with it. With pnpm or Yarn, add Zod yourself: `pnpm add typemaid zod`. Needs Node 22 or newer, or Bun 1.2 or newer, and Zod 4.2 or newer.
 
 ## 2. Draw the workflow
 

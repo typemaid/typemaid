@@ -1,24 +1,26 @@
 ## Install
 
-Install typemaid and Zod with your package manager:
+Install typemaid with your package manager:
 
 ```bash
-npm install typemaid zod
+npm i typemaid
 ```
+
+```bash
+bun add typemaid
+```
+
+npm and Bun also install Zod, which typemaid needs as a peer dependency. pnpm and Yarn do not make it available to your code, so add it yourself:
 
 ```bash
 pnpm add typemaid zod
 ```
 
 ```bash
-bun add typemaid zod
-```
-
-```bash
 yarn add typemaid zod
 ```
 
-Zod 4.2 or newer is required. Nothing else is installed with it.
+Zod 4.2 or newer is required. Nothing else is installed with typemaid.
 
 ## Optional packages
 

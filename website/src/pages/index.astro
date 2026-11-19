@@ -28,6 +28,13 @@ const result = await run('./triage.mmd', tools, { ticketId: 'T-URGENT' }, { stor
 await resume(result.runId, tools, { decision: 'approved', note: 'on it' }, { store });
 // { status: 'completed', output: { priority: 5, sent: true, ... } }`;
 
+// pnpm does not let your code import a peer dependency it installed for typemaid, so Zod is added there.
+const installCommands = [
+  { pm: 'npm', command: 'npm i typemaid' },
+  { pm: 'pnpm', command: 'pnpm add typemaid zod' },
+  { pm: 'bun', command: 'bun add typemaid' },
+];
+
 const description = 'typemaid is a TypeScript SDK for AI workflows: draw the flow as a Mermaid flowchart, write each step as a typed function, and run it with pauses and retries.';
 const themes = { light: 'github-light', dark: 'github-dark' } as const;
 
@@ -75,8 +82,8 @@ const packages = [
 
       <div class="hero">
         <div class="hero-head">
-          <p class="hero-eyebrow">TypeScript SDK for AI workflows</p>
-          <h1>The diagram is the program.</h1>
+          <p class="hero-eyebrow">TypeScript SDK</p>
+          <h1>Transform your Mermaid diagrams into AI workflows.</h1>
         </div>
         <div class="hero-body">
           <p class="lede">typemaid runs Mermaid flowcharts as typed workflows. Each box is a TypeScript function with a Zod schema. The diagram decides what runs next; runs pause for people, retry failed steps and resume after a restart.</p>
@@ -85,8 +92,15 @@ const packages = [
             <a class="button ghost" href="/docs/examples/support-triage/">Read the example</a>
           </div>
           <div class="install" data-install>
-            <span class="prompt">$</span><code>npm install typemaid zod</code>
-            <button type="button" data-copy-install aria-label="Copy the install command">Copy</button>
+            <div class="install-tabs" role="group" aria-label="Package manager">
+              {installCommands.map((c, i) => (
+                <button type="button" data-pm={c.pm} data-command={c.command} aria-pressed={i === 0 ? 'true' : 'false'}>{c.pm}</button>
+              ))}
+            </div>
+            <div class="install-line">
+              <span class="prompt">$</span><code data-install-command>{installCommands[0]!.command}</code>
+              <button type="button" data-copy-install aria-label="Copy the install command">Copy</button>
+            </div>
           </div>
         </div>
       </div>
@@ -183,9 +197,18 @@ const packages = [
 <script>
   import '../scripts/hero-flow';
 
+  const command = document.querySelector<HTMLElement>('[data-install-command]');
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[data-pm]');
+  tabs.forEach((tab) =>
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => t.setAttribute('aria-pressed', String(t === tab)));
+      if (command) command.textContent = tab.dataset.command ?? '';
+    }),
+  );
+
   const button = document.querySelector<HTMLButtonElement>('[data-copy-install]');
   button?.addEventListener('click', async () => {
-    await navigator.clipboard.writeText('npm install typemaid zod');
+    await navigator.clipboard.writeText(command?.textContent ?? '');
     button.textContent = 'Copied';
     setTimeout(() => (button.textContent = 'Copy'), 1500);
   });

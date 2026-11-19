@@ -1,0 +1,205 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "1d3e7687fdd1ba2a9420cf57577250de400c9d80b31d23ba6c7207f87aa35223",
+  "entries": [
+    "fetchTicket"
+  ],
+  "nodes": {
+    "fetchTicket": {
+      "id": "fetchTicket",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "label": "Fetch ticket",
+      "ref": "fetchTicket"
+    },
+    "classify": {
+      "id": "classify",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        1
+      ],
+      "line": 2,
+      "column": 33,
+      "label": "Classify",
+      "ref": "classify"
+    },
+    "urgent": {
+      "id": "urgent",
+      "kind": "decision",
+      "scope": "",
+      "hints": [],
+      "out": [
+        2,
+        3
+      ],
+      "line": 3,
+      "column": 16,
+      "label": "priority >= 4",
+      "cond": {
+        "kind": "expr",
+        "text": "priority >= 4",
+        "ast": {
+          "t": "bin",
+          "op": ">=",
+          "l": {
+            "t": "path",
+            "p": [
+              "priority"
+            ]
+          },
+          "r": {
+            "t": "lit",
+            "v": 4
+          }
+        }
+      }
+    },
+    "approve": {
+      "id": "approve",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "human"
+      ],
+      "out": [
+        4,
+        5
+      ],
+      "line": 4,
+      "column": 19,
+      "label": "Manager approval",
+      "ref": "approve",
+      "route": "choice"
+    },
+    "reply": {
+      "id": "reply",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        7
+      ],
+      "line": 5,
+      "column": 18,
+      "label": "Draft reply",
+      "ref": "reply"
+    },
+    "closeTicket": {
+      "id": "closeTicket",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        6
+      ],
+      "line": 7,
+      "column": 25,
+      "label": "Close ticket",
+      "ref": "closeTicket"
+    },
+    "closed": {
+      "id": "closed",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 7,
+      "column": 55,
+      "label": "Closed"
+    },
+    "send": {
+      "id": "send",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        8
+      ],
+      "line": 8,
+      "column": 13,
+      "label": "Send reply",
+      "ref": "send"
+    },
+    "done": {
+      "id": "done",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 8,
+      "column": 34,
+      "label": "Done"
+    }
+  },
+  "edges": [
+    {
+      "from": "fetchTicket",
+      "to": "classify",
+      "line": 2,
+      "column": 29
+    },
+    {
+      "from": "classify",
+      "to": "urgent",
+      "line": 3,
+      "column": 12
+    },
+    {
+      "from": "urgent",
+      "to": "approve",
+      "line": 4,
+      "column": 10,
+      "branch": "yes"
+    },
+    {
+      "from": "urgent",
+      "to": "reply",
+      "line": 5,
+      "column": 10,
+      "branch": "no"
+    },
+    {
+      "from": "approve",
+      "to": "reply",
+      "line": 6,
+      "column": 11,
+      "branch": "approved"
+    },
+    {
+      "from": "approve",
+      "to": "closeTicket",
+      "line": 7,
+      "column": 11,
+      "branch": "rejected"
+    },
+    {
+      "from": "closeTicket",
+      "to": "closed",
+      "line": 7,
+      "column": 51
+    },
+    {
+      "from": "reply",
+      "to": "send",
+      "line": 8,
+      "column": 9
+    },
+    {
+      "from": "send",
+      "to": "done",
+      "line": 8,
+      "column": 30
+    }
+  ],
+  "foreach": {},
+  "file": "examples/triage/triage.mmd"
+}

@@ -1,0 +1,4 @@
+test/fixtures/reject/E1013-click.mmd:3:3  error E1013  `click` actions are not supported.
+   3 |   click a href "https://example.com"
+     |   ^
+     fix: Remove this line.

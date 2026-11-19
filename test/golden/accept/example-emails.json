@@ -1,0 +1,164 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "cde435a4f27b2b373477d9dea3594a65156b238a0d92c286ec2f1dc97e307bf3",
+  "entries": [
+    "fetchEmails"
+  ],
+  "nodes": {
+    "fetchEmails": {
+      "id": "fetchEmails",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "start"
+      ],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "label": "Fetch emails",
+      "ref": "fetchEmails"
+    },
+    "classify": {
+      "id": "classify",
+      "kind": "step",
+      "scope": "each",
+      "hints": [],
+      "out": [
+        1
+      ],
+      "line": 4,
+      "column": 5,
+      "label": "Classify",
+      "ref": "classify"
+    },
+    "spam": {
+      "id": "spam",
+      "kind": "decision",
+      "scope": "each",
+      "hints": [],
+      "out": [
+        2,
+        3
+      ],
+      "line": 4,
+      "column": 28,
+      "label": "isSpam",
+      "cond": {
+        "kind": "name",
+        "name": "isSpam"
+      }
+    },
+    "archive": {
+      "id": "archive",
+      "kind": "step",
+      "scope": "each",
+      "hints": [],
+      "out": [],
+      "line": 5,
+      "column": 19,
+      "label": "Archive",
+      "ref": "archive"
+    },
+    "reply": {
+      "id": "reply",
+      "kind": "step",
+      "scope": "each",
+      "hints": [],
+      "out": [],
+      "line": 6,
+      "column": 18,
+      "label": "Draft reply",
+      "ref": "reply"
+    },
+    "report": {
+      "id": "report",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        5
+      ],
+      "line": 8,
+      "column": 12,
+      "label": "Send summary",
+      "ref": "report"
+    },
+    "done": {
+      "id": "done",
+      "kind": "marker",
+      "scope": "",
+      "hints": [
+        "stop"
+      ],
+      "out": [],
+      "line": 8,
+      "column": 37,
+      "label": "Done"
+    },
+    "each": {
+      "id": "each",
+      "kind": "foreach",
+      "scope": "",
+      "hints": [],
+      "out": [
+        4
+      ],
+      "line": 3,
+      "column": 3
+    }
+  },
+  "edges": [
+    {
+      "from": "fetchEmails",
+      "to": "each",
+      "line": 2,
+      "column": 37
+    },
+    {
+      "from": "classify",
+      "to": "spam",
+      "line": 4,
+      "column": 24
+    },
+    {
+      "from": "spam",
+      "to": "archive",
+      "line": 5,
+      "column": 10,
+      "branch": "yes"
+    },
+    {
+      "from": "spam",
+      "to": "reply",
+      "line": 6,
+      "column": 10,
+      "branch": "no"
+    },
+    {
+      "from": "each",
+      "to": "report",
+      "line": 8,
+      "column": 8
+    },
+    {
+      "from": "report",
+      "to": "done",
+      "line": 8,
+      "column": 33
+    }
+  ],
+  "foreach": {
+    "each": {
+      "id": "each",
+      "entry": "classify",
+      "line": 3,
+      "column": 3,
+      "item": "email",
+      "list": "emails"
+    }
+  },
+  "file": "examples/emails/emails.mmd"
+}

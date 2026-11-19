@@ -1,0 +1,12 @@
+test/fixtures/reject/E1003-reserved.mmd:2:9  error E1003  `call` is a reserved word in Mermaid and cannot be used as a node name.
+   2 |   a --> call[Call API]
+     |         ^
+     fix: Rename it, or keep the tool name and write `callStep[$call]`.
+test/fixtures/reject/E1003-reserved.mmd:3:3  error E1003  `call` is a reserved word in Mermaid and cannot be used as a node name.
+   3 |   call --> end
+     |   ^
+     fix: Rename it, or keep the tool name and write `callStep[$call]`.
+test/fixtures/reject/E1003-reserved.mmd:3:12  error E1003  `end` is a reserved word in Mermaid and cannot be used as a node name.
+   3 |   call --> end
+     |            ^
+     fix: Rename it, or keep the tool name and write `endStep[$end]`.

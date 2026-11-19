@@ -1,0 +1,14 @@
+# Plain Markdown copies of the docs pages, for AI agents and the "Copy page" button.
+# Search engines should index the HTML pages, so the copies are not indexed.
+/docs/*.md
+  Content-Type: text/markdown; charset=utf-8
+  X-Robots-Tag: noindex
+  Access-Control-Allow-Origin: *
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *

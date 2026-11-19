@@ -1,0 +1,8 @@
+test/fixtures/reject/E1108-crossing.mmd:6:5  error E1108  The arrow from `a` to `b` crosses the edge of a for-each block.
+   6 |   a --> b
+     |     ^
+     fix: Connect to the block itself, not to a node inside it.
+test/fixtures/reject/E1108-crossing.mmd:11:5  error E1108  Arrows can only connect to a subgraph that is a for-each block; `plain` is not.
+  11 |   a --> plain
+     |     ^
+     fix: Add `class plain foreach`, or connect to a node inside it.

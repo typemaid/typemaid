@@ -1,0 +1,4 @@
+test/fixtures/reject/E1007-redeclare.mmd:3:3  error E1007  Node `a` is declared twice with different text or shape (first on line 2).
+   3 |   a[$y] --> c
+     |   ^
+     fix: Declare it once, then refer to it as `a`.

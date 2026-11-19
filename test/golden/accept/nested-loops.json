@@ -1,0 +1,213 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "49a34c781d2c69f1cc4fef6f71ed2b3d9946b8819d390491ee21640e56b7e410",
+  "entries": [
+    "goal"
+  ],
+  "nodes": {
+    "goal": {
+      "id": "goal",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "start"
+      ],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "label": "Read goal",
+      "ref": "goal"
+    },
+    "plan": {
+      "id": "plan",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "agent"
+      ],
+      "out": [
+        1
+      ],
+      "line": 2,
+      "column": 31,
+      "label": "Plan tasks",
+      "ref": "plan"
+    },
+    "task": {
+      "id": "task",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "agent"
+      ],
+      "out": [
+        2
+      ],
+      "line": 3,
+      "column": 12,
+      "label": "Do next task",
+      "ref": "task"
+    },
+    "verify": {
+      "id": "verify",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "agent"
+      ],
+      "out": [
+        3
+      ],
+      "line": 4,
+      "column": 12,
+      "label": "Check result",
+      "ref": "verify"
+    },
+    "fixed": {
+      "id": "fixed",
+      "kind": "decision",
+      "scope": "",
+      "hints": [],
+      "out": [
+        4,
+        5
+      ],
+      "line": 5,
+      "column": 14,
+      "label": "passes",
+      "cond": {
+        "kind": "name",
+        "name": "passes"
+      }
+    },
+    "more": {
+      "id": "more",
+      "kind": "decision",
+      "scope": "",
+      "hints": [],
+      "out": [
+        6,
+        7
+      ],
+      "line": 7,
+      "column": 18,
+      "label": "moreTasks",
+      "cond": {
+        "kind": "name",
+        "name": "moreTasks"
+      }
+    },
+    "approve": {
+      "id": "approve",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "human"
+      ],
+      "out": [
+        8,
+        9
+      ],
+      "line": 9,
+      "column": 16,
+      "label": "Final approval",
+      "ref": "approve",
+      "route": "choice"
+    },
+    "ship": {
+      "id": "ship",
+      "kind": "marker",
+      "scope": "",
+      "hints": [
+        "stop"
+      ],
+      "out": [],
+      "line": 11,
+      "column": 25,
+      "label": "Ship"
+    }
+  },
+  "edges": [
+    {
+      "from": "goal",
+      "to": "plan",
+      "line": 2,
+      "column": 27
+    },
+    {
+      "from": "plan",
+      "to": "task",
+      "line": 3,
+      "column": 8
+    },
+    {
+      "from": "task",
+      "to": "verify",
+      "line": 4,
+      "column": 8
+    },
+    {
+      "from": "verify",
+      "to": "fixed",
+      "line": 5,
+      "column": 10
+    },
+    {
+      "from": "fixed",
+      "to": "task",
+      "line": 6,
+      "column": 9,
+      "branch": "no",
+      "max": 3
+    },
+    {
+      "from": "fixed",
+      "to": "more",
+      "line": 7,
+      "column": 9,
+      "branch": "yes"
+    },
+    {
+      "from": "more",
+      "to": "task",
+      "line": 8,
+      "column": 8,
+      "branch": "yes",
+      "max": 20,
+      "resets": [
+        4
+      ]
+    },
+    {
+      "from": "more",
+      "to": "approve",
+      "line": 9,
+      "column": 8,
+      "branch": "no"
+    },
+    {
+      "from": "approve",
+      "to": "plan",
+      "line": 10,
+      "column": 11,
+      "branch": "rejected",
+      "max": 2,
+      "resets": [
+        4,
+        6
+      ]
+    },
+    {
+      "from": "approve",
+      "to": "ship",
+      "line": 11,
+      "column": 11,
+      "branch": "approved"
+    }
+  ],
+  "foreach": {},
+  "file": "test/fixtures/accept/nested-loops.mmd"
+}

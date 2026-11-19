@@ -1,0 +1,6 @@
+flowchart TD
+  fetch[Fetch a page]:::start --> process[Process items]
+  process --> more{more}
+  more -->|yes, max 10| fetch
+  more -->|no| done([Done]):::stop
+  webhook([Webhook]):::start --> process

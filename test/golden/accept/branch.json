@@ -1,0 +1,123 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "0068265d86c88024e606d82e9203bc11cd04b024416ef7ac1a2845fd25fd9064",
+  "entries": [
+    "add"
+  ],
+  "nodes": {
+    "add": {
+      "id": "add",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "ref": "add"
+    },
+    "big": {
+      "id": "big",
+      "kind": "decision",
+      "scope": "",
+      "hints": [],
+      "out": [
+        1,
+        2
+      ],
+      "line": 2,
+      "column": 11,
+      "label": "sum > 10",
+      "cond": {
+        "kind": "expr",
+        "text": "sum > 10",
+        "ast": {
+          "t": "bin",
+          "op": ">",
+          "l": {
+            "t": "path",
+            "p": [
+              "sum"
+            ]
+          },
+          "r": {
+            "t": "lit",
+            "v": 10
+          }
+        }
+      }
+    },
+    "double": {
+      "id": "double",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        3
+      ],
+      "line": 3,
+      "column": 16,
+      "ref": "double"
+    },
+    "negate": {
+      "id": "negate",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        4
+      ],
+      "line": 4,
+      "column": 15,
+      "ref": "negate"
+    },
+    "out": {
+      "id": "out",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 5,
+      "column": 14,
+      "label": "Out"
+    }
+  },
+  "edges": [
+    {
+      "from": "add",
+      "to": "big",
+      "line": 2,
+      "column": 7
+    },
+    {
+      "from": "big",
+      "to": "double",
+      "line": 3,
+      "column": 7,
+      "branch": "yes"
+    },
+    {
+      "from": "big",
+      "to": "negate",
+      "line": 4,
+      "column": 7,
+      "branch": "no"
+    },
+    {
+      "from": "double",
+      "to": "out",
+      "line": 5,
+      "column": 10
+    },
+    {
+      "from": "negate",
+      "to": "out",
+      "line": 6,
+      "column": 10
+    }
+  ],
+  "foreach": {},
+  "file": "test/fixtures/accept/branch.mmd"
+}

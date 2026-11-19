@@ -1,0 +1,33 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import { pages, type DocPage } from '../../lib/nav';
+
+type Entry = CollectionEntry<'docs'> | CollectionEntry<'guide'> | CollectionEntry<'reference'>;
+
+export async function getStaticPaths() {
+  const all = {
+    docs: await getCollection('docs'),
+    guide: await getCollection('guide'),
+    reference: await getCollection('reference'),
+  };
+  return pages.map((page) => {
+    const entry = (all[page.source.collection] as Entry[]).find((e) => e.id.toLowerCase() === page.source.id.toLowerCase());
+    if (!entry) throw new Error(`No ${page.source.collection} entry "${page.source.id}" for /docs/${page.slug}`);
+    return { params: { slug: page.slug || undefined }, props: { page, entry } };
+  });
+}
+
+interface Props {
+  page: DocPage;
+  entry: Entry;
+}
+
+const { page, entry } = Astro.props;
+const { Content, headings } = await render(entry);
+// Pages that start with their own "# Title" keep it; the others get the title from nav.ts.
+const addTitle = !headings.some((h) => h.depth === 1);
+---
+<DocsLayout page={page} headings={headings} addTitle={addTitle}>
+  <Content />
+</DocsLayout>

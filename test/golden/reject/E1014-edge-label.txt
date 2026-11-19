@@ -1,0 +1,17 @@
+test/fixtures/reject/E1014-edge-label.mmd:2:5  error E1014  Cannot read `max`.
+   2 |   a -->|max| b
+     |     ^
+     fix: Write `max 5`.
+test/fixtures/reject/E1014-edge-label.mmd:3:5  error E1014  `timeout` on an arrow is reserved and not supported yet.
+   3 |   b -->|timeout 5m| c
+     |     ^
+test/fixtures/reject/E1014-edge-label.mmd:4:5  error E1014  `error` on an arrow is reserved and not supported yet.
+   4 |   c -->|error| d
+     |     ^
+test/fixtures/reject/E1014-edge-label.mmd:5:5  error E1014  Arrow text `yes please` is not understood.
+   5 |   d -->|yes please, now| e
+     |     ^
+     fix: Use one word such as `yes`, `no` or `approved`, optionally followed by `, max 5`.
+test/fixtures/reject/E1014-edge-label.mmd:6:5  error E1014  `max` must be between 1 and 1000.
+   6 |   e -->|max 0| a
+     |     ^

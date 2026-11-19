@@ -1,0 +1,7 @@
+# Keep secrets out of Cursor's AI features (same syntax as .gitignore).
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.npmrc

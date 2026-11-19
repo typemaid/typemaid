@@ -1,0 +1,4 @@
+test/fixtures/reject/E1009-directive.mmd:1:1  error E1009  Directives (`%%{ ... }%%`) are not supported.
+   1 | %%{init: {"theme": "dark"}}%%
+     | ^
+     fix: Remove this line.

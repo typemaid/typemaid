@@ -1,0 +1,8 @@
+flowchart TD
+  fetchTicket[Fetch ticket] --> classify[Classify]
+  classify --> urgent{"priority >= 4"}
+  urgent -->|yes| approve{{Manager approval}}:::human
+  urgent -->|no| reply[Draft reply]
+  approve -->|approved| reply
+  approve -->|rejected| closeTicket[Close ticket] --> closed([Closed])
+  reply --> send[Send reply] --> done([Done])

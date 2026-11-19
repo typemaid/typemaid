@@ -1,0 +1,4 @@
+test/fixtures/reject/E1102-many-starts.mmd:3:3  error E1102  Several nodes could be the start: `a`, `b`.
+   3 |   b --> c
+     |   ^
+     fix: Mark each intended entry point with `:::start`, or connect the others.

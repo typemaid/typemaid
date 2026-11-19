@@ -1,0 +1,3 @@
+test/fixtures/reject/E1114-duplicate.mmd:3:5  error E1114  The arrow from `a` to `b` is written twice.
+   3 |   a --> b
+     |     ^

@@ -1,0 +1,119 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "9b180009cc0fd6dc95b565c106dc633b2168ba182fca3e91797dd30b7fb0557a",
+  "entries": [
+    "fetch",
+    "webhook"
+  ],
+  "nodes": {
+    "fetch": {
+      "id": "fetch",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "start"
+      ],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "label": "Fetch a page",
+      "ref": "fetch"
+    },
+    "process": {
+      "id": "process",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        1
+      ],
+      "line": 2,
+      "column": 35,
+      "label": "Process items",
+      "ref": "process"
+    },
+    "more": {
+      "id": "more",
+      "kind": "decision",
+      "scope": "",
+      "hints": [],
+      "out": [
+        2,
+        3
+      ],
+      "line": 3,
+      "column": 15,
+      "label": "more",
+      "cond": {
+        "kind": "name",
+        "name": "more"
+      }
+    },
+    "done": {
+      "id": "done",
+      "kind": "marker",
+      "scope": "",
+      "hints": [
+        "stop"
+      ],
+      "out": [],
+      "line": 5,
+      "column": 16,
+      "label": "Done"
+    },
+    "webhook": {
+      "id": "webhook",
+      "kind": "marker",
+      "scope": "",
+      "hints": [
+        "start"
+      ],
+      "out": [
+        4
+      ],
+      "line": 6,
+      "column": 3,
+      "label": "Webhook"
+    }
+  },
+  "edges": [
+    {
+      "from": "fetch",
+      "to": "process",
+      "line": 2,
+      "column": 31
+    },
+    {
+      "from": "process",
+      "to": "more",
+      "line": 3,
+      "column": 11
+    },
+    {
+      "from": "more",
+      "to": "fetch",
+      "line": 4,
+      "column": 8,
+      "branch": "yes",
+      "max": 10
+    },
+    {
+      "from": "more",
+      "to": "done",
+      "line": 5,
+      "column": 8,
+      "branch": "no"
+    },
+    {
+      "from": "webhook",
+      "to": "process",
+      "line": 6,
+      "column": 30
+    }
+  ],
+  "foreach": {},
+  "file": "examples/sync/sync.mmd"
+}

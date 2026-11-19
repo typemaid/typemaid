@@ -1,0 +1,11 @@
+test/fixtures/reject/E1011-bad-id.mmd:2:3  error E1011  A node name cannot start with a digit.
+   2 |   1st --> b
+     |   ^
+     fix: Start the name with a letter.
+test/fixtures/reject/E1011-bad-id.mmd:3:3  error E1011  Node names cannot contain `-`.
+   3 |   my-tool --> c
+     |   ^
+     fix: Use `_` or camelCase.
+test/fixtures/reject/E1011-bad-id.mmd:4:9  error E1002  An arrow must point to a node.
+   4 |   d --> 
+     |         ^

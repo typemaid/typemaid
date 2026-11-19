@@ -1,0 +1,60 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "064e5b6f930bc0a903c78ff2520a59dc396a7d823c5e9c29dd91fd9f43aa8a0c",
+  "entries": [
+    "add"
+  ],
+  "nodes": {
+    "add": {
+      "id": "add",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "ref": "add"
+    },
+    "double": {
+      "id": "double",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        1
+      ],
+      "line": 2,
+      "column": 11,
+      "ref": "double"
+    },
+    "finish": {
+      "id": "finish",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 2,
+      "column": 22,
+      "label": "Finish"
+    }
+  },
+  "edges": [
+    {
+      "from": "add",
+      "to": "double",
+      "line": 2,
+      "column": 7
+    },
+    {
+      "from": "double",
+      "to": "finish",
+      "line": 2,
+      "column": 18
+    }
+  ],
+  "foreach": {},
+  "file": "test/fixtures/accept/sequence.mmd"
+}

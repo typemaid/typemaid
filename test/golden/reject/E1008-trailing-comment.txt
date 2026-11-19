@@ -1,0 +1,4 @@
+test/fixtures/reject/E1008-trailing-comment.mmd:2:11  error E1008  A comment must be on its own line.
+   2 |   a --> b %% note
+     |           ^
+     fix: Move the `%%` comment to the line above.

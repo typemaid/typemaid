@@ -1,0 +1,8 @@
+test/fixtures/reject/E1112-condition.mmd:2:9  error E1112  A condition that is more than a single name must be in double quotes.
+   2 |   a --> d{score >= 8}
+     |         ^
+     fix: Write `d{"score >= 8"}`.
+test/fixtures/reject/E1112-condition.mmd:5:9  error E1112  A decision needs a condition over fields, not a sentence.
+   5 |   c --> e{Is the score good?}
+     |         ^
+     fix: Write a condition such as `e{"score >= 8"}`, or name a true/false field or exported function: `e{isGood}`.

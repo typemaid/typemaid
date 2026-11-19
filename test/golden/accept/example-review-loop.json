@@ -1,0 +1,127 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "9bffbfa4210863f6c0c8541607fb40917f61a0166b54b5145843dc0f3b43c645",
+  "entries": [
+    "draft"
+  ],
+  "nodes": {
+    "draft": {
+      "id": "draft",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "label": "Write a draft",
+      "ref": "draft"
+    },
+    "review": {
+      "id": "review",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        1
+      ],
+      "line": 2,
+      "column": 28,
+      "label": "Score the draft",
+      "ref": "review"
+    },
+    "good": {
+      "id": "good",
+      "kind": "decision",
+      "scope": "",
+      "hints": [],
+      "out": [
+        2,
+        3
+      ],
+      "line": 3,
+      "column": 14,
+      "label": "score >= 8",
+      "cond": {
+        "kind": "expr",
+        "text": "score >= 8",
+        "ast": {
+          "t": "bin",
+          "op": ">=",
+          "l": {
+            "t": "path",
+            "p": [
+              "score"
+            ]
+          },
+          "r": {
+            "t": "lit",
+            "v": 8
+          }
+        }
+      }
+    },
+    "publish": {
+      "id": "publish",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        4
+      ],
+      "line": 5,
+      "column": 17,
+      "label": "Publish",
+      "ref": "publish"
+    },
+    "done": {
+      "id": "done",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 5,
+      "column": 38,
+      "label": "Done"
+    }
+  },
+  "edges": [
+    {
+      "from": "draft",
+      "to": "review",
+      "line": 2,
+      "column": 24
+    },
+    {
+      "from": "review",
+      "to": "good",
+      "line": 3,
+      "column": 10
+    },
+    {
+      "from": "good",
+      "to": "draft",
+      "line": 4,
+      "column": 8,
+      "branch": "no",
+      "max": 5
+    },
+    {
+      "from": "good",
+      "to": "publish",
+      "line": 5,
+      "column": 8,
+      "branch": "yes"
+    },
+    {
+      "from": "publish",
+      "to": "done",
+      "line": 5,
+      "column": 34
+    }
+  ],
+  "foreach": {},
+  "file": "examples/review-loop/review-loop.mmd"
+}

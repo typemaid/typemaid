@@ -1,0 +1,111 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "919dbc5e35453bbcbf7b57e5311243c2d0c3d44a4510618a4d76fa0121adce34",
+  "entries": [
+    "fetchPage"
+  ],
+  "nodes": {
+    "fetchPage": {
+      "id": "fetchPage",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "label": "Fetch page",
+      "ref": "fetchPage"
+    },
+    "summarize": {
+      "id": "summarize",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "agent"
+      ],
+      "out": [
+        1
+      ],
+      "line": 2,
+      "column": 29,
+      "label": "Summarize",
+      "ref": "summarize"
+    },
+    "enough": {
+      "id": "enough",
+      "kind": "decision",
+      "scope": "",
+      "hints": [],
+      "out": [
+        2,
+        3
+      ],
+      "line": 3,
+      "column": 17,
+      "label": "bullets.length >= 3",
+      "cond": {
+        "kind": "expr",
+        "text": "bullets.length >= 3",
+        "ast": {
+          "t": "bin",
+          "op": ">=",
+          "l": {
+            "t": "path",
+            "p": [
+              "bullets",
+              "length"
+            ]
+          },
+          "r": {
+            "t": "lit",
+            "v": 3
+          }
+        }
+      }
+    },
+    "done": {
+      "id": "done",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 5,
+      "column": 19,
+      "label": "Done"
+    }
+  },
+  "edges": [
+    {
+      "from": "fetchPage",
+      "to": "summarize",
+      "line": 2,
+      "column": 25
+    },
+    {
+      "from": "summarize",
+      "to": "enough",
+      "line": 3,
+      "column": 13
+    },
+    {
+      "from": "enough",
+      "to": "summarize",
+      "line": 4,
+      "column": 10,
+      "branch": "no",
+      "max": 2
+    },
+    {
+      "from": "enough",
+      "to": "done",
+      "line": 5,
+      "column": 10,
+      "branch": "yes"
+    }
+  ],
+  "foreach": {},
+  "file": "examples/summarize/summarize.mmd"
+}

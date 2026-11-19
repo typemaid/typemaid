@@ -1,0 +1,11 @@
+flowchart TD
+  goal[Read goal]:::start --> plan[Plan tasks]:::agent
+  plan --> task[Do next task]:::agent
+  task --> verify[Check result]:::agent
+  verify --> fixed{passes}
+  fixed -->|no, max 3| task
+  fixed -->|yes| more{moreTasks}
+  more -->|yes, max 20| task
+  more -->|no| approve{{Final approval}}:::human
+  approve -->|rejected, max 2| plan
+  approve -->|approved| ship([Ship]):::stop

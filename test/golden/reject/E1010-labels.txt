@@ -1,0 +1,16 @@
+test/fixtures/reject/E1010-labels.mmd:2:4  error E1010  The text of this node is empty.
+   2 |   a[] --> b[some (text)]
+     |    ^
+     fix: Write some text, or remove the brackets.
+test/fixtures/reject/E1010-labels.mmd:3:5  error E1010  The text of this node is empty.
+   3 |   c[""] --> d{}
+     |     ^
+     fix: Write some text between the quotes, or remove the brackets.
+test/fixtures/reject/E1010-labels.mmd:4:4  error E1010  Text containing brackets or `|` must be in double quotes.
+   4 |   e[a | b] --> f
+     |    ^
+     fix: Write `e["a | b"]`.
+test/fixtures/reject/E1010-labels.mmd:5:3  error E1010  This subgraph title cannot be read by Mermaid.
+   5 |   subgraph g [A (title)]
+     |   ^
+     fix: Write `subgraph g["Your title"]`.

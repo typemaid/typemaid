@@ -1,0 +1,11 @@
+flowchart TD
+  a --> each
+  subgraph each["for x in xs"]
+    b --> c
+  end
+  a --> b
+  class each foreach
+  subgraph plain
+    p
+  end
+  a --> plain

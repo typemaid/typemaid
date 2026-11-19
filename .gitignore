@@ -1,0 +1,45 @@
+# Private notes, plans and instructions. Never commit.
+.private/
+# Maintainer-only skill, linked from .private/skills.
+skills/rename-sdk
+
+# Personal AI assistant settings (the shared ones in .claude/, .cursor/, .opencode/ are committed).
+CLAUDE.local.md
+.claude/settings.local.json
+.opencode/*.local.json
+
+# Secrets. Only the example file is shared.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.npmrc
+
+# Dependencies and build output
+node_modules/
+dist/
+*.tgz
+*.tsbuildinfo
+
+# Docs site (website/ has its own .gitignore too)
+website/.astro/
+website/public/docs/
+.wrangler/
+
+# Local databases from runs and tests
+*.db
+*.db-shm
+*.db-wal
+
+# Test and tool output
+coverage/
+test-results/
+playwright-report/
+*.log
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

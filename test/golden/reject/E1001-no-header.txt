@@ -1,0 +1,4 @@
+test/fixtures/reject/E1001-no-header.mmd:1:1  error E1001  The diagram must start with `flowchart TD` (or another direction).
+   1 | a --> b
+     | ^
+     fix: Add `flowchart TD` as the first line.

@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "37b4d4cd117998fd364f78bfc77c66d159cc54e9687187a27b64a80c935d4d27",
+  "entries": [
+    "add"
+  ],
+  "nodes": {
+    "add": {
+      "id": "add",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0,
+        1
+      ],
+      "line": 2,
+      "column": 3,
+      "ref": "add",
+      "route": "fork",
+      "join": null
+    },
+    "left": {
+      "id": "left",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 2,
+      "column": 11,
+      "ref": "left"
+    },
+    "right": {
+      "id": "right",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 3,
+      "column": 11,
+      "ref": "right"
+    }
+  },
+  "edges": [
+    {
+      "from": "add",
+      "to": "left",
+      "line": 2,
+      "column": 7
+    },
+    {
+      "from": "add",
+      "to": "right",
+      "line": 3,
+      "column": 7
+    }
+  ],
+  "foreach": {},
+  "file": "test/fixtures/accept/parallel-end.mmd"
+}

@@ -1,0 +1,8 @@
+---
+description: How to work in the typemaid repository
+alwaysApply: true
+---
+
+Read and follow `AGENTS.md` at the repository root: layout, commands, the rules for tests, diagnostics and docs, and the writing style. Task guides are in `skills/` (add an example, a diagnostic, a store, update docs, check package contents).
+
+Before calling a change done, run `bun run build && bun test && bun run typecheck`. Never read or commit `.env` or `.env.live`.

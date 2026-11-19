@@ -1,0 +1,8 @@
+flowchart TD
+  first --> s
+  s --> a
+  s --> b
+  a --> d{ok}
+  d -->|no, max 3| s
+  d -->|yes| x
+  b --> x

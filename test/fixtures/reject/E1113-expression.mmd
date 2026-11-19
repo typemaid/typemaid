@@ -1,0 +1,10 @@
+flowchart TD
+  a --> d{"score >= "}
+  d -->|yes| b
+  d -->|no| c
+  c --> e{"a = 1"}
+  e -->|yes| b
+  e -->|no| f
+  f --> g{"x.constructor == 1"}
+  g -->|yes| b
+  g -->|no| h

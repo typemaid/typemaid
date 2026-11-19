@@ -1,0 +1,80 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "8ecbe93a2d920a3dd6d64e9cdef70b6b5a436c9a455aa5cb6937da058a677fd7",
+  "entries": [
+    "add"
+  ],
+  "nodes": {
+    "add": {
+      "id": "add",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "ref": "add"
+    },
+    "first": {
+      "id": "first",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        1
+      ],
+      "line": 2,
+      "column": 11,
+      "label": "$double",
+      "ref": "double"
+    },
+    "second": {
+      "id": "second",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        2
+      ],
+      "line": 3,
+      "column": 13,
+      "label": "$double",
+      "ref": "double"
+    },
+    "finish": {
+      "id": "finish",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 4,
+      "column": 14,
+      "label": "Finish"
+    }
+  },
+  "edges": [
+    {
+      "from": "add",
+      "to": "first",
+      "line": 2,
+      "column": 7
+    },
+    {
+      "from": "first",
+      "to": "second",
+      "line": 3,
+      "column": 9
+    },
+    {
+      "from": "second",
+      "to": "finish",
+      "line": 4,
+      "column": 10
+    }
+  ],
+  "foreach": {},
+  "file": "test/fixtures/accept/reuse.mmd"
+}

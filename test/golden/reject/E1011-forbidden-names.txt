@@ -1,0 +1,16 @@
+test/fixtures/reject/E1011-forbidden-names.mmd:2:9  error E1011  `__proto__` cannot be used as a node name.
+   2 |   a --> __proto__
+     |         ^
+     fix: Choose a different name.
+test/fixtures/reject/E1011-forbidden-names.mmd:3:3  error E1011  `constructor` cannot be used as a node name.
+   3 |   constructor --> toString
+     |   ^
+     fix: Choose a different name.
+test/fixtures/reject/E1011-forbidden-names.mmd:3:19  error E1011  `toString` cannot be used as a node name.
+   3 |   constructor --> toString
+     |                   ^
+     fix: Choose a different name.
+test/fixtures/reject/E1011-forbidden-names.mmd:4:3  error E1011  `hasOwnProperty` cannot be used as a node name.
+   4 |   subgraph hasOwnProperty
+     |   ^
+     fix: Choose a different name.

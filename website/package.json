@@ -1,0 +1,33 @@
+{
+  "name": "typemaid-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node scripts/sync-assets.mjs",
+    "dev": "npm run sync && astro dev",
+    "build": "npm run sync && astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "test": "npm run build && SKIP_BUILD=1 vitest run --project unit --project site",
+    "test:unit": "vitest run --project unit",
+    "test:site": "vitest run --project site",
+    "test:watch": "vitest --project unit",
+    "test:e2e": "vitest run --project e2e",
+    "test:all": "npm run build && SKIP_BUILD=1 vitest run"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "7.3.9",
+    "@astrojs/sitemap": "3.7.5",
+    "astro": "7.4.12",
+    "mermaid": "^12.3.0"
+  },
+  "devDependencies": {
+    "cheerio": "1.2.0",
+    "pagefind": "1.6.0",
+    "playwright": "1.65.1",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "11.0.0",
+    "unified": "11.0.5",
+    "vfile": "6.0.3",
+    "vitest": "5.1.0"
+  }
+}

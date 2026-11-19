@@ -1,0 +1,4 @@
+test/fixtures/reject/E1107-parallel.mmd:3:9  error E1107  The parallel branches from `s` both reach `b` before they finish.
+   3 |   s --> b
+     |         ^
+     fix: Branches must stay separate until they all meet at one node.

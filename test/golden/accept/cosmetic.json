@@ -1,0 +1,64 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "4c0ad8ddfe7ddf0c2f6c1fa2614ca312809e9f717916bcede1881b9aa230a6ca",
+  "entries": [
+    "add"
+  ],
+  "nodes": {
+    "add": {
+      "id": "add",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "start"
+      ],
+      "out": [
+        0
+      ],
+      "line": 7,
+      "column": 3,
+      "label": "Add numbers",
+      "ref": "add"
+    },
+    "double": {
+      "id": "double",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        1
+      ],
+      "line": 7,
+      "column": 33,
+      "label": "Double it",
+      "ref": "double"
+    },
+    "finish": {
+      "id": "finish",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 7,
+      "column": 65,
+      "label": "End"
+    }
+  },
+  "edges": [
+    {
+      "from": "add",
+      "to": "double",
+      "line": 7,
+      "column": 28
+    },
+    {
+      "from": "double",
+      "to": "finish",
+      "line": 7,
+      "column": 61
+    }
+  ],
+  "foreach": {},
+  "file": "test/fixtures/accept/cosmetic.mmd"
+}

@@ -1,0 +1,5 @@
+flowchart TD
+  fetchPage[Fetch page] --> summarize[Summarize]:::agent
+  summarize --> enough{"bullets.length >= 3"}
+  enough -->|no, max 2| summarize
+  enough -->|yes| done([Done])

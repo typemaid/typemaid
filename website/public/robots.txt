@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://typemaid.pages.dev/sitemap-index.xml

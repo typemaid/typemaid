@@ -1,0 +1,8 @@
+test/fixtures/reject/E1105-mixed-labels.mmd:2:5  error E1105  Arrows leaving `a` must either all have labels (pick one) or none (run all).
+   2 |   a -->|one| b
+     |     ^
+     fix: For a yes/no decision use a diamond: `name{condition}`.
+test/fixtures/reject/E1105-mixed-labels.mmd:4:5  error E1105  The label `lonely` on the arrow from `d` has no meaning: `d` is not a decision.
+   4 |   d -->|lonely| a
+     |     ^
+     fix: For a yes/no decision use a diamond: `name{condition}`.

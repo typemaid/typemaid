@@ -1,0 +1,14 @@
+---
+title: Cosmetic syntax that has no effect on execution
+---
+graph TB
+  %% a comment on its own line
+  classDef start fill:#eef,stroke:#33f
+  add[Add numbers]:::start ---> double("Double it"); double --> finish((End))
+  subgraph group [Just a box]
+    direction LR
+    double
+  end
+  style add fill:#f9f
+  linkStyle 0 stroke:#333
+  class double highlighted

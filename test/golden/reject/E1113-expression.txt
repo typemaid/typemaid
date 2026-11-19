@@ -1,0 +1,12 @@
+test/fixtures/reject/E1113-expression.mmd:2:9  error E1113  Cannot read the condition "score >=": The condition ends too early.
+   2 |   a --> d{"score >= "}
+     |         ^
+     fix: Conditions can compare fields with ==, !=, >, >=, <, <= and combine them with and, or, not.
+test/fixtures/reject/E1113-expression.mmd:5:9  error E1113  Cannot read the condition "a = 1": Use `==` to compare.
+   5 |   c --> e{"a = 1"}
+     |         ^
+     fix: Conditions can compare fields with ==, !=, >, >=, <, <= and combine them with and, or, not.
+test/fixtures/reject/E1113-expression.mmd:8:9  error E1113  Cannot read the condition "x.constructor == 1": `constructor` cannot be used in a condition.
+   8 |   f --> g{"x.constructor == 1"}
+     |         ^
+     fix: Conditions can compare fields with ==, !=, >, >=, <, <= and combine them with and, or, not.

@@ -1,0 +1,6 @@
+flowchart TD
+  a -->|max| b
+  b -->|timeout 5m| c
+  c -->|error| d
+  d -->|yes please, now| e
+  e -->|max 0| a

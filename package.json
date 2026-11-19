@@ -1,0 +1,94 @@
+{
+  "name": "typemaid",
+  "version": "0.27.1",
+  "description": "Draw a workflow as a Mermaid flowchart, write the steps as typed functions, and run it.",
+  "license": "FSL-1.1-MIT",
+  "homepage": "https://typemaid.pages.dev",
+  "author": "HITESH CHAWLA",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22",
+    "bun": ">=1.2"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "typemaid": "./dist/cli.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./ai": {
+      "types": "./dist/ai.d.mts",
+      "default": "./dist/ai.mjs"
+    },
+    "./sqlite": {
+      "types": "./dist/sqlite.d.mts",
+      "default": "./dist/sqlite.mjs"
+    },
+    "./node": {
+      "types": "./dist/node.d.mts",
+      "default": "./dist/node.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown && bun run --filter './packages/*' build",
+    "typecheck": "tsc --noEmit && bun run --filter './packages/*' typecheck",
+    "test": "bun run build && bun test",
+    "test:live": "bun --env-file=.env.live test test/live.test.ts",
+    "lint:pkg": "publint --strict && attw --pack . --profile esm-only && bun run --filter './packages/*' lint:pkg",
+    "check:examples": "bun dist/cli.mjs check examples",
+    "smoke": "bash scripts/smoke.sh",
+    "view": "bun src/cli.ts view",
+    "runtimes": "bash scripts/runtimes.sh",
+    "prepublishOnly": "bun run typecheck && bun run test && bun run lint:pkg && bun run runtimes && bun run smoke"
+  },
+  "peerDependencies": {
+    "@typemaid/view": "0.27.1",
+    "ai": "^7.0.0",
+    "zod": "^4.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@typemaid/view": {
+      "optional": true
+    },
+    "ai": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@typemaid/view": "workspace:*",
+    "@ai-sdk/anthropic": "^4.0.104",
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@types/bun": "^1.4.4",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^24.19.2",
+    "ai": "^7.0.172",
+    "fast-check": "^4.10.2",
+    "jsdom": "^31.0.1",
+    "mermaid": "12.3.0",
+    "publint": "^0.3.25",
+    "tsdown": "^0.23.7",
+    "typescript": "^7.0.2",
+    "zod": "^4.6.7"
+  },
+  "packageManager": "bun@1.4.4",
+  "keywords": [
+    "workflow",
+    "mermaid",
+    "flowchart",
+    "durable",
+    "agents",
+    "ai",
+    "zod",
+    "typescript"
+  ]
+}

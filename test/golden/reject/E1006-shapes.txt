@@ -1,0 +1,8 @@
+test/fixtures/reject/E1006-shapes.mmd:2:4  error E1006  The shape starting with `[[` is not supported.
+   2 |   a[[Sub]] --> b[(Db)]
+     |    ^
+     fix: Use `[text]`, `(text)`, `([text])`, `{condition}` or `{{text}}`.
+test/fixtures/reject/E1006-shapes.mmd:3:4  error E1006  The shape starting with `@{` is not supported.
+   3 |   c@{ shape: start } --> d
+     |    ^
+     fix: Use `[text]`, `(text)`, `([text])`, `{condition}` or `{{text}}`.

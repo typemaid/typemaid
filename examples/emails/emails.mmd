@@ -1,0 +1,9 @@
+flowchart TD
+  fetchEmails[Fetch emails]:::start --> each
+  subgraph each["for email in emails"]
+    classify[Classify] --> spam{isSpam}
+    spam -->|yes| archive[Archive]
+    spam -->|no| reply[Draft reply]
+  end
+  each --> report[Send summary] --> done([Done]):::stop
+  class each foreach

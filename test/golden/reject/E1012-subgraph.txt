@@ -1,0 +1,14 @@
+test/fixtures/reject/E1012-subgraph.mmd:2:3  error E1012  A subgraph needs an id.
+   2 |   subgraph Two words
+     |   ^
+     fix: Write `subgraph each["for item in items"]`.
+test/fixtures/reject/E1012-subgraph.mmd:6:5  error E1012  Subgraphs inside subgraphs are not supported yet.
+   6 |     subgraph inner
+     |     ^
+test/fixtures/reject/E1012-subgraph.mmd:9:3  error E1012  `end` without a matching `subgraph`.
+   9 |   end
+     |   ^
+test/fixtures/reject/E1012-subgraph.mmd:10:3  error E1012  Subgraph `open` is never closed.
+  10 |   subgraph open
+     |   ^
+     fix: Add a line containing only `end`.

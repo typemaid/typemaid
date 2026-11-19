@@ -1,0 +1,4 @@
+test/fixtures/reject/E1104-decision.mmd:2:9  error E1104  Decision `d` needs exactly two arrows, labelled `yes` and `no`.
+   2 |   a --> d{ok}
+     |         ^
+     fix: Write `d -->|yes| a` and `d -->|no| b`.

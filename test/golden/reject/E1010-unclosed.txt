@@ -1,0 +1,6 @@
+test/fixtures/reject/E1010-unclosed.mmd:2:4  error E1010  This node is never closed with `]`.
+   2 |   a[Open --> b
+     |    ^
+test/fixtures/reject/E1010-unclosed.mmd:3:8  error E1010  This arrow text is never closed with `|`.
+   3 |   c -->|yes d
+     |        ^

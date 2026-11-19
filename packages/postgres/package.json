@@ -1,0 +1,47 @@
+{
+  "name": "@typemaid/postgres",
+  "version": "0.27.1",
+  "description": "Saves typemaid runs in Postgres, so paused and failed runs survive restarts and can be shared by several servers.",
+  "license": "FSL-1.1-MIT",
+  "homepage": "https://typemaid.pages.dev",
+  "author": "HITESH CHAWLA",
+  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "bun": ">=1.2"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "lint:pkg": "publint --strict && attw --pack . --profile esm-only"
+  },
+  "peerDependencies": {
+    "typemaid": "0.27.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.16",
+    "@types/pg": "^8.23.1",
+    "typemaid": "workspace:*",
+    "pg": "^8.23.1"
+  },
+  "keywords": [
+    "workflow",
+    "durable",
+    "postgres",
+    "store"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

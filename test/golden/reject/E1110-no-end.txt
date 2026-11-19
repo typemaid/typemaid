@@ -1,0 +1,4 @@
+test/fixtures/reject/E1110-no-end.mmd:2:3  error E1110  The flow can never finish from `a`: no path leads to an end.
+   2 |   a:::start --> b
+     |   ^
+     fix: Add an arrow that leaves the loop.

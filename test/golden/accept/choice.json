@@ -1,0 +1,88 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "8ac8f7c3ad8705cef52c14e4416372b8d4185c9433974fb43667315f7f7b9431",
+  "entries": [
+    "route"
+  ],
+  "nodes": {
+    "route": {
+      "id": "route",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0,
+        1
+      ],
+      "line": 2,
+      "column": 3,
+      "ref": "route",
+      "route": "choice"
+    },
+    "double": {
+      "id": "double",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        2
+      ],
+      "line": 2,
+      "column": 20,
+      "ref": "double"
+    },
+    "negate": {
+      "id": "negate",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        3
+      ],
+      "line": 3,
+      "column": 20,
+      "ref": "negate"
+    },
+    "finish": {
+      "id": "finish",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 4,
+      "column": 14,
+      "label": "Finish"
+    }
+  },
+  "edges": [
+    {
+      "from": "route",
+      "to": "double",
+      "line": 2,
+      "column": 9,
+      "branch": "small"
+    },
+    {
+      "from": "route",
+      "to": "negate",
+      "line": 3,
+      "column": 9,
+      "branch": "large"
+    },
+    {
+      "from": "double",
+      "to": "finish",
+      "line": 4,
+      "column": 10
+    },
+    {
+      "from": "negate",
+      "to": "finish",
+      "line": 5,
+      "column": 10
+    }
+  ],
+  "foreach": {},
+  "file": "test/fixtures/accept/choice.mmd"
+}

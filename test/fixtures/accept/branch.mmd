@@ -1,0 +1,6 @@
+flowchart TD
+  add --> big{"sum > 10"}
+  big -->|yes| double
+  big -->|no| negate
+  double --> out([Out])
+  negate --> out

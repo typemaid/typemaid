@@ -1,0 +1,60 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "2b14f5d802177ef9a95b20eaffd4cb9adba856ecd0733f10d797f45abc71ccfa",
+  "entries": [
+    "greet"
+  ],
+  "nodes": {
+    "greet": {
+      "id": "greet",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0
+      ],
+      "line": 2,
+      "column": 3,
+      "ref": "greet"
+    },
+    "shout": {
+      "id": "shout",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        1
+      ],
+      "line": 2,
+      "column": 13,
+      "ref": "shout"
+    },
+    "done": {
+      "id": "done",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 2,
+      "column": 23,
+      "label": "Done"
+    }
+  },
+  "edges": [
+    {
+      "from": "greet",
+      "to": "shout",
+      "line": 2,
+      "column": 9
+    },
+    {
+      "from": "shout",
+      "to": "done",
+      "line": 2,
+      "column": 19
+    }
+  ],
+  "foreach": {},
+  "file": "examples/hello/hello.mmd"
+}

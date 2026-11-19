@@ -1,0 +1,12 @@
+test/fixtures/reject/E1004-spacing.mmd:2:4  error E1004  Put a space before the arrow.
+   2 |   a-->order
+     |    ^
+     fix: Write `a -->`.
+test/fixtures/reject/E1004-spacing.mmd:2:7  error E1004  Put a space after the arrow.
+   2 |   a-->order
+     |       ^
+     fix: Write `--> name`.
+test/fixtures/reject/E1004-spacing.mmd:3:13  error E1004  Put a space after the arrow.
+   3 |   b -->|yes|c
+     |             ^
+     fix: Write `--> name`.

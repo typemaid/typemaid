@@ -1,0 +1,4 @@
+test/fixtures/reject/E1111-foreach.mmd:2:3  error E1111  `foreach` can only be put on a subgraph.
+   2 |   a --> each
+     |   ^
+     fix: Write `subgraph a["for item in items"]`.

@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "typemaid": ["../../src/index.ts"],
+      "@typemaid/postgres": ["./src/index.ts"]
+    }
+  },
+  "include": ["src", "test", "../../test/store-contract.ts"]
+}

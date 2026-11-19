@@ -1,0 +1,24 @@
+test/fixtures/reject/E1005-links.mmd:2:5  error E1005  Only `-->` arrows are supported.
+   2 |   a --- b
+     |     ^
+     fix: Use `-->`.
+test/fixtures/reject/E1005-links.mmd:3:5  error E1005  Only `-->` arrows are supported.
+   3 |   c -.-> d
+     |     ^
+     fix: Use `-->`.
+test/fixtures/reject/E1005-links.mmd:4:5  error E1005  Only `-->` arrows are supported.
+   4 |   e ==> f
+     |     ^
+     fix: Use `-->`.
+test/fixtures/reject/E1005-links.mmd:5:5  error E1005  Only `-->` arrows are supported.
+   5 |   g -- text --> h
+     |     ^
+     fix: Write the text as `-->|text|`.
+test/fixtures/reject/E1005-links.mmd:6:5  error E1005  Only `-->` arrows are supported.
+   6 |   i --o j
+     |     ^
+     fix: Use `-->`.
+test/fixtures/reject/E1005-links.mmd:7:5  error E1005  Only `-->` arrows are supported.
+   7 |   k & l --> m
+     |     ^
+     fix: Use `-->`.

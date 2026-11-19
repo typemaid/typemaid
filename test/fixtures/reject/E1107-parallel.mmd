@@ -1,0 +1,7 @@
+flowchart TD
+  s --> a
+  s --> b
+  a --> d{ok}
+  d -->|yes| x
+  d -->|no| b
+  b --> x

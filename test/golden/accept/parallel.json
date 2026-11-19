@@ -1,0 +1,105 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "54e4a6d5b661a705b9fa3a794d5a85c2ee27ec82e0a811e044403e974991ba03",
+  "entries": [
+    "add"
+  ],
+  "nodes": {
+    "add": {
+      "id": "add",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        0,
+        1
+      ],
+      "line": 2,
+      "column": 3,
+      "ref": "add",
+      "route": "fork",
+      "join": "merge"
+    },
+    "left": {
+      "id": "left",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        2
+      ],
+      "line": 2,
+      "column": 11,
+      "ref": "left"
+    },
+    "right": {
+      "id": "right",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        3
+      ],
+      "line": 3,
+      "column": 11,
+      "ref": "right"
+    },
+    "merge": {
+      "id": "merge",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        4
+      ],
+      "line": 4,
+      "column": 12,
+      "ref": "merge"
+    },
+    "finish": {
+      "id": "finish",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 6,
+      "column": 13,
+      "label": "Finish"
+    }
+  },
+  "edges": [
+    {
+      "from": "add",
+      "to": "left",
+      "line": 2,
+      "column": 7
+    },
+    {
+      "from": "add",
+      "to": "right",
+      "line": 3,
+      "column": 7
+    },
+    {
+      "from": "left",
+      "to": "merge",
+      "line": 4,
+      "column": 8
+    },
+    {
+      "from": "right",
+      "to": "merge",
+      "line": 5,
+      "column": 9
+    },
+    {
+      "from": "merge",
+      "to": "finish",
+      "line": 6,
+      "column": 9
+    }
+  ],
+  "foreach": {},
+  "file": "test/fixtures/accept/parallel.mmd"
+}

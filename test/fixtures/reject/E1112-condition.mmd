@@ -1,0 +1,7 @@
+flowchart TD
+  a --> d{score >= 8}
+  d -->|yes| b
+  d -->|no| c
+  c --> e{Is the score good?}
+  e -->|yes| b
+  e -->|no| b2

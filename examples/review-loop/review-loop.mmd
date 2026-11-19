@@ -1,0 +1,5 @@
+flowchart TD
+  draft[Write a draft] --> review[Score the draft]
+  review --> good{"score >= 8"}
+  good -->|no, max 5| draft
+  good -->|yes| publish[Publish] --> done([Done])

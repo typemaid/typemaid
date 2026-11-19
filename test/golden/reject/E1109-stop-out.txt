@@ -1,0 +1,3 @@
+test/fixtures/reject/E1109-stop-out.mmd:2:9  error E1109  `s` is marked `:::stop` but has an arrow leaving it.
+   2 |   a --> s([Stop]):::stop
+     |         ^

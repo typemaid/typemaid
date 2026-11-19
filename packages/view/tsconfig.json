@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "typemaid": [
+        "../../src/index.ts"
+      ],
+      "typemaid/node": [
+        "../../src/node/index.ts"
+      ],
+      "@typemaid/view": [
+        "./src/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "test",
+    "scripts"
+  ]
+}

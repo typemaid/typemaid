@@ -1,0 +1,4 @@
+test/fixtures/reject/E1107-loop-out.mmd:2:13  error E1107  A branch that starts at `s` loops back to `s`. A loop cannot leave a parallel block.
+   2 |   first --> s
+     |             ^
+     fix: Keep loops inside one branch, or move the loop outside the parallel part.

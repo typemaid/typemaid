@@ -1,0 +1,4 @@
+test/fixtures/reject/E1103-unreachable.mmd:3:3  error E1103  Node `c` can never be reached from the start (`a`).
+   3 |   c --> b
+     |   ^
+     fix: If the flow can also start here, mark it `c:::start`. Otherwise connect it with an arrow, or remove it.

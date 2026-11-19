@@ -1,0 +1,26 @@
+test/fixtures/reject/E1002-styling.mmd:1:1  error E1002  The frontmatter block is empty.
+   1 | ---
+     | ^
+     fix: Remove the two `---` lines.
+test/fixtures/reject/E1002-styling.mmd:4:10  error E1002  A node can have only one `:::` class here.
+   4 |   a:::one:::two --> b
+     |          ^
+     fix: Add further classes on their own line: `class a otherName`.
+test/fixtures/reject/E1002-styling.mmd:5:11  error E1008  A comment must be on its own line.
+   5 |   a --> c; %% comment after a semicolon
+     |           ^
+     fix: Move the `%%` comment to the line above.
+test/fixtures/reject/E1002-styling.mmd:6:3  error E1002  Could not read this `class` line.
+   6 |   class a, b highlighted
+     |   ^
+     fix: Write `class nodeId className` (several ids: `class a,b className`, no spaces after commas).
+test/fixtures/reject/E1002-styling.mmd:7:3  error E1002  Could not read this `classDef` line.
+   7 |   classDef
+     |   ^
+     fix: Write `classDef name fill:#eef`.
+test/fixtures/reject/E1002-styling.mmd:8:3  error E1002  `style` refers to `ghost`, which is not in the diagram.
+   8 |   style ghost fill:#f00
+     |   ^
+test/fixtures/reject/E1002-styling.mmd:9:3  error E1002  `linkStyle 9` refers to an arrow that does not exist (the diagram has 1).
+   9 |   linkStyle 9 stroke:red
+     |   ^

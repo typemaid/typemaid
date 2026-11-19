@@ -1,0 +1,9 @@
+[test]
+# Some tests start separate processes or run thousands of generated diagrams.
+timeout = 60000
+# The website has its own Vitest suite (cd website && npm test).
+pathIgnorePatterns = ["website/**"]
+
+[install]
+# One shared node_modules for the workspace, so both packages see the same tools.
+linker = "hoisted"

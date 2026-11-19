@@ -1,0 +1,4 @@
+test/fixtures/reject/E1106-loop-no-cap.mmd:4:5  error E1106  The arrow from `d` back to `a` makes a loop with no limit.
+   4 |   d -->|no| a
+     |     ^
+     fix: Add a limit to its label, for example `|no, max 5|`.

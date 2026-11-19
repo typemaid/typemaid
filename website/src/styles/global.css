@@ -196,11 +196,6 @@ pre.astro-code { background-color: var(--code-bg) !important; }
   max-width: 1180px; margin: 0 auto; padding-top: 24px;
   display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 64px; align-items: start;
 }
-.hero-eyebrow {
-  margin: 0 0 18px; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 13px;
-  letter-spacing: 0.02em; color: #7d93b0;
-}
-.hero-body { padding-top: 40px; }
 .hero h1 { font-size: 54px; line-height: 1.06; letter-spacing: -1.4px; margin: 0; color: #f4f8fd; font-weight: 600; }
 .lede { font-size: 17px; line-height: 1.65; color: #a9bcd3; max-width: 560px; margin: 0 0 26px; }
 .hero .cta { justify-content: flex-start; }
@@ -424,7 +419,6 @@ pre.astro-code { background-color: var(--code-bg) !important; }
   .prose h1 { font-size: 30px; }
   .stage { padding: 56px 18px 48px; }
   .hero { grid-template-columns: 1fr; gap: 24px; padding-top: 0; }
-  .hero-body { padding-top: 0; }
   .hero h1 { font-size: 44px; letter-spacing: -1.2px; }
   .lede { font-size: 17px; }
   .run-log { flex-direction: column; align-items: flex-start; }

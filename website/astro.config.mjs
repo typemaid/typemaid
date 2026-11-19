@@ -22,10 +22,7 @@ export default defineConfig({
         [remarkSiteLinks, { repoRoot, docsDir, readme }],
       ],
     }),
-    // Both themes are emitted as CSS variables; global.css picks one from data-theme.
-    shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark' },
-      defaultColor: false,
-    },
+    // The site is dark only; global.css replaces the theme's background with the site's own.
+    shikiConfig: { theme: 'github-dark' },
   },
 });

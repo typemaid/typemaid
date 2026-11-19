@@ -1,38 +1,20 @@
 /* ---------- Theme ---------- */
-:root,
-[data-theme='light'] {
-  --bg: #ffffff;
-  --bg-soft: #f8fafc;
-  --bg-muted: #f1f5f9;
-  --ink: #0f172a;
-  --ink-soft: #334155;
-  --muted: #64748b;
-  --line: #e2e8f0;
-  --accent: #2f74c0;
-  --accent-soft: #eaf2fb;
-  --accent-ink: #235a97;
-  --code-bg: #f6f8fa;
-  --inline-code: #eef0f4;
-  --callout: #f8fafc;
-  --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
-  color-scheme: light;
-}
-
-[data-theme='dark'] {
-  --bg: #0b1020;
-  --bg-soft: #0f1629;
-  --bg-muted: #151d33;
-  --ink: #e2e8f0;
-  --ink-soft: #cbd5e1;
-  --muted: #94a3b8;
-  --line: #1f2a44;
+/* The site has one theme: dark, on a black background. */
+:root {
+  --bg: #000000;
+  --bg-soft: #0a0a0a;
+  --bg-muted: #141414;
+  --ink: #ededed;
+  --ink-soft: #c8ccd2;
+  --muted: #8f96a1;
+  --line: #222222;
   --accent: #6aa7f0;
-  --accent-soft: #13243b;
+  --accent-soft: #0f1d30;
   --accent-ink: #9cc6f7;
-  --code-bg: #0d1117;
-  --inline-code: #1a2340;
-  --callout: #111a33;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --code-bg: #0a0a0a;
+  --inline-code: #1a1a1a;
+  --callout: #0d0d0d;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }
 
@@ -45,7 +27,6 @@ body {
   color: var(--ink);
   background: var(--bg);
   line-height: 1.65;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -61,12 +42,6 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid transparent; transition: border-color 0.2s;
 }
 .topbar.is-scrolled { border-bottom-color: var(--line); }
-/* On the landing page the top bar is black, like the hero below it, in both themes. */
-.is-home .topbar {
-  --bg: #000000; --bg-muted: #141414; --ink: #f4f8fd; --ink-soft: #c9d4e3; --muted: #8b98aa;
-  --line: #1f1f1f; --accent: #6aa7f0; --accent-soft: #10213a; --accent-ink: #9cc6f7;
-  background: #000000; backdrop-filter: none; color-scheme: dark;
-}
 .topbar-inner { display: flex; align-items: center; gap: 28px; height: 64px; padding: 0 24px; max-width: 1480px; margin: 0 auto; }
 .wordmark { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--ink); }
 .wordmark:hover { text-decoration: none; }
@@ -78,14 +53,6 @@ a:hover { text-decoration: underline; }
 .topnav a:hover { background: var(--bg-muted); text-decoration: none; }
 .topnav a[aria-current='true'] { color: var(--accent); background: var(--accent-soft); }
 .topbar-tools { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-.theme-toggle {
-  display: inline-grid; place-items: center; width: 38px; height: 38px;
-  border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink-soft); cursor: pointer;
-}
-.theme-toggle:hover { background: var(--bg-muted); }
-.theme-toggle .icon-sun { display: none; }
-[data-theme='dark'] .theme-toggle .icon-sun { display: block; }
-[data-theme='dark'] .theme-toggle .icon-moon { display: none; }
 .menu-button { display: none; }
 
 /* ---------- Search (Pagefind) ---------- */
@@ -180,9 +147,8 @@ pre.astro-code {
   font-family: "SF Mono", Menlo, Consolas, monospace;
 }
 pre.astro-code code { background: none; padding: 0; font-size: inherit; }
-/* Shiki emits both themes as CSS variables; show the one that matches data-theme. */
-.astro-code, .astro-code span { color: var(--shiki-light); background-color: var(--shiki-light-bg); font-style: var(--shiki-light-font-style); font-weight: var(--shiki-light-font-weight); }
-[data-theme='dark'] .astro-code, [data-theme='dark'] .astro-code span { color: var(--shiki-dark); background-color: var(--shiki-dark-bg); font-style: var(--shiki-dark-font-style); font-weight: var(--shiki-dark-font-weight); }
+/* Code is highlighted with Shiki's github-dark colours, on the site's own code background. */
+pre.astro-code { background-color: var(--code-bg) !important; }
 .copy {
   position: absolute; top: 8px; right: 8px; font-size: 12px; padding: 4px 10px; border-radius: 6px;
   border: 1px solid var(--line); background: var(--bg); color: var(--muted); cursor: pointer; opacity: 0; transition: opacity 0.15s;
@@ -362,7 +328,7 @@ pre.astro-code code { background: none; padding: 0; font-size: inherit; }
 }
 .diagram-tab:hover { color: var(--ink); }
 .diagram-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.diagram-tab[aria-selected="true"] { background: var(--bg); color: var(--ink); box-shadow: 0 0 0 1px var(--line), 0 1px 2px rgba(15, 23, 42, 0.06); }
+.diagram-tab[aria-selected="true"] { background: #222222; color: var(--ink); box-shadow: 0 0 0 1px #2e2e2e; }
 .code-wrap.is-diagram pre.astro-code { border-top-left-radius: 0; border-top-right-radius: 0; }
 .code-wrap.is-diagram .copy { top: 6px; right: 6px; }
 .code-wrap.is-diagram[data-showing="preview"] .copy { display: none; }

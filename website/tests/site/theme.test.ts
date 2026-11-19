@@ -1,24 +1,20 @@
 import { describe, expect, it } from 'vitest';
 import { allRoutes, loadPage } from './helpers';
 
-// What can be checked without a browser. Behaviour is covered in tests/e2e.
-describe('theme setup in the HTML', () => {
+// The site has one theme: dark, on a black background. Behaviour is covered in tests/e2e.
+describe('dark theme in the HTML', () => {
   describe.each(allRoutes)('%s', (route) => {
-    it('sets data-theme from a script in <head>, before the stylesheet can paint', () => {
+    it('declares only the dark colour scheme to the browser', () => {
       const { $ } = loadPage(route);
-      const inline = $('head script:not([src]):not([type])');
-      expect(inline.text()).toContain('prefers-color-scheme: dark');
-      expect(inline.text()).toContain("localStorage.getItem('theme')");
+      expect($('meta[name="color-scheme"]').attr('content')).toBe('dark');
+      expect($('meta[name="theme-color"]').attr('content')).toBe('#000000');
     });
 
-    it('has a labelled theme toggle', () => {
+    it('has no theme toggle and no theme switching script', () => {
       const { $ } = loadPage(route);
-      expect($('[data-theme-toggle]').attr('aria-label')).toMatch(/Switch to (dark|light) theme/);
-    });
-
-    it('declares both colour schemes to the browser', () => {
-      const { $ } = loadPage(route);
-      expect($('meta[name="color-scheme"]').attr('content')).toBe('light dark');
+      expect($('[data-theme-toggle]').length).toBe(0);
+      expect($('html').attr('data-theme')).toBeUndefined();
+      expect($('script:not([src])').text()).not.toContain("localStorage.getItem('theme')");
     });
   });
 });

@@ -23,78 +23,26 @@ async function open(path: string, options: Parameters<Browser['newContext']>[0] 
   return { context, page };
 }
 
-const theme = (page: Page) => page.evaluate(() => document.documentElement.dataset.theme);
-
-describe('theme', () => {
-  it('follows the system light setting on a first visit', async () => {
-    const { context, page } = await open('/docs/', { colorScheme: 'light' });
-    expect(await theme(page)).toBe('light');
-    await context.close();
-  });
-
-  it('follows the system dark setting on a first visit', async () => {
-    const { context, page } = await open('/docs/', { colorScheme: 'dark' });
-    expect(await theme(page)).toBe('dark');
-    await context.close();
-  });
-
-  it('toggles, updates the button label, and remembers the choice after a reload', async () => {
-    const { context, page } = await open('/docs/', { colorScheme: 'light' });
-    const toggle = page.locator('[data-theme-toggle]');
-    await expect.poll(() => toggle.getAttribute('aria-label')).toBe('Switch to dark theme');
-
-    await toggle.click();
-    expect(await theme(page)).toBe('dark');
-    expect(await toggle.getAttribute('aria-label')).toBe('Switch to light theme');
-    expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
-
-    await page.reload({ waitUntil: 'networkidle' });
-    expect(await theme(page)).toBe('dark');
-
-    await page.locator('[data-theme-toggle]').click();
-    expect(await theme(page)).toBe('light');
-    await context.close();
-  });
-
-  it('keeps a stored choice even when the system setting differs', async () => {
-    const { context, page } = await open('/docs/', { colorScheme: 'dark' });
-    await page.evaluate(() => localStorage.setItem('theme', 'light'));
-    await page.reload({ waitUntil: 'networkidle' });
-    expect(await theme(page)).toBe('light');
-    await context.close();
-  });
-
-  it('sets the theme before the first paint (no flash)', async () => {
-    const context = await browser.newContext({ colorScheme: 'dark' });
-    const page = await context.newPage();
-    // Record the theme at the moment the body starts parsing.
-    await page.addInitScript(() => {
-      new MutationObserver((_, observer) => {
-        if (document.body) {
-          (window as unknown as { themeAtBody: string }).themeAtBody = document.documentElement.dataset.theme ?? '';
-          observer.disconnect();
-        }
-      }).observe(document, { childList: true, subtree: true });
-    });
-    await page.goto(server.url + '/docs/');
-    expect(await page.evaluate(() => (window as unknown as { themeAtBody: string }).themeAtBody)).toBe('dark');
-    await context.close();
-  });
-
-  it('changes page and code colours with the theme', async () => {
+describe('dark theme', () => {
+  it('is black and dark even when the system asks for light', async () => {
     const { context, page } = await open('/docs/examples/hello/', { colorScheme: 'light' });
-    const colours = () => page.evaluate(() => ({
+    const colours = await page.evaluate(() => ({
       body: getComputedStyle(document.body).backgroundColor,
+      text: getComputedStyle(document.body).color,
       code: getComputedStyle(document.querySelector('pre.astro-code')!).backgroundColor,
-      token: getComputedStyle(document.querySelector('pre.astro-code span span')!).color,
     }));
-    const light = await colours();
-    await page.locator('[data-theme-toggle]').click();
-    // The body background fades over 0.2s; wait for it to settle.
-    await expect.poll(async () => (await colours()).body).not.toBe(light.body);
-    const dark = await colours();
-    expect(dark.code).not.toBe(light.code);
-    expect(dark.token).not.toBe(light.token);
+    expect(colours.body).toBe('rgb(0, 0, 0)');
+    expect(colours.text).toBe('rgb(237, 237, 237)');
+    expect(colours.code).toBe('rgb(10, 10, 10)');
+    await context.close();
+  });
+
+  it('shows the top bar border only after scrolling', async () => {
+    const { context, page } = await open('/docs/concepts/how-it-works/');
+    const border = () => page.$eval('.topbar', (e) => getComputedStyle(e).borderBottomColor);
+    expect(await border()).toBe('rgba(0, 0, 0, 0)');
+    await page.mouse.wheel(0, 800);
+    await expect.poll(border).not.toBe('rgba(0, 0, 0, 0)');
     await context.close();
   });
 });

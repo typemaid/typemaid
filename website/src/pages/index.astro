@@ -36,7 +36,6 @@ const installCommands = [
 ];
 
 const description = 'typemaid is a TypeScript SDK for AI workflows: draw the flow as a Mermaid flowchart, write each step as a typed function, and run it with pauses and retries.';
-const themes = { light: 'github-light', dark: 'github-dark' } as const;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -137,7 +136,7 @@ const packages = [
             </header>
             <div class="pane">
               <div class="code-title">{s.file}</div>
-              <Code code={s.code} lang={s.lang as 'ts'} themes={themes} defaultColor={false} />
+              <Code code={s.code} lang={s.lang as 'ts'} theme="github-dark" />
             </div>
           </article>
         ))}

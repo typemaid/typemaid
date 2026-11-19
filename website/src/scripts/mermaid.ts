@@ -6,30 +6,22 @@ import type { Mermaid, MermaidConfig } from 'mermaid';
 export const MERMAID_VERSION = '12.3.0';
 export const MERMAID_URL = `https://cdn.jsdelivr.net/npm/mermaid@${MERMAID_VERSION}/dist/mermaid.esm.min.mjs`;
 
-export type DiagramTheme = 'light' | 'dark' | 'stage';
+export type DiagramTheme = 'docs' | 'stage';
 
 const font = 'ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif';
 
 const themes: Record<DiagramTheme, MermaidConfig['themeVariables']> = {
-  light: {
+  // Diagrams in the docs, on the site's black background.
+  docs: {
     fontFamily: font,
-    primaryColor: '#eef4fb',
-    primaryBorderColor: '#3178c6',
-    primaryTextColor: '#0f172a',
-    lineColor: '#64748b',
-    edgeLabelBackground: '#ffffff',
-    tertiaryColor: '#f8fafc',
+    primaryColor: '#101a28',
+    primaryBorderColor: '#4f86c6',
+    primaryTextColor: '#e6edf5',
+    lineColor: '#7d8896',
+    edgeLabelBackground: '#0a0a0a',
+    tertiaryColor: '#0a0a0a',
   },
-  dark: {
-    fontFamily: font,
-    primaryColor: '#13243b',
-    primaryBorderColor: '#6aa7f0',
-    primaryTextColor: '#e2e8f0',
-    lineColor: '#94a3b8',
-    edgeLabelBackground: '#0d1117',
-    tertiaryColor: '#0f1629',
-  },
-  // The landing page's dark stage, the same in both site themes.
+  // The live diagram in the landing page hero.
   stage: {
     fontFamily: font,
     fontSize: '19px',
@@ -75,12 +67,4 @@ export function renderMermaid(source: string, theme: DiagramTheme): Promise<stri
   });
   queue = job.catch(() => undefined);
   return job;
-}
-
-/** The site's current theme. */
-export const siteTheme = (): DiagramTheme => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
-
-/** Calls `fn` whenever the site theme changes. */
-export function onThemeChange(fn: () => void) {
-  new MutationObserver(fn).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 }

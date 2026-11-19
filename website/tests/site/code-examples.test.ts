@@ -44,13 +44,12 @@ describe('code included from the repository', () => {
 });
 
 describe('code highlighting', () => {
-  it('emits both light and dark colours for every highlighted block', () => {
+  it('highlights every block with the dark theme only', () => {
     for (const route of allRoutes) {
       const { $ } = loadPage(route);
       $('pre.astro-code').each((_, pre) => {
-        const style = $(pre).attr('style') ?? '';
-        expect(style, route).toContain('--shiki-light');
-        expect(style, route).toContain('--shiki-dark');
+        expect($(pre).hasClass('github-dark'), route).toBe(true);
+        expect($(pre).attr('style') ?? '', route).not.toContain('--shiki-light');
       });
     }
   });

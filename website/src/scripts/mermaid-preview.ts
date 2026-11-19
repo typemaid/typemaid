@@ -1,6 +1,6 @@
 // Gives every Mermaid flowchart in the docs two tabs: Code and Preview. The diagram is drawn in the
 // background as the block comes near the screen, so switching to Preview is instant.
-import { loadMermaid, onThemeChange, renderMermaid, siteTheme } from './mermaid';
+import { loadMermaid, renderMermaid } from './mermaid';
 
 interface Block {
   wrap: HTMLElement;
@@ -9,7 +9,7 @@ interface Block {
   tabs: HTMLButtonElement[];
   source: string;
   showing: 'code' | 'preview';
-  drawnFor?: string;
+  drawn?: boolean;
   drawing?: Promise<void>;
 }
 
@@ -18,13 +18,12 @@ const MAX_HEIGHT = 680;
 let uid = 0;
 
 function draw(block: Block): Promise<void> {
-  const theme = siteTheme();
-  if (block.drawnFor === theme) return Promise.resolve();
+  if (block.drawn) return Promise.resolve();
   if (block.drawing) return block.drawing;
   block.view.classList.add('is-loading');
   block.drawing = (async () => {
     try {
-      const svg = await renderMermaid(block.source, theme);
+      const svg = await renderMermaid(block.source, 'docs');
       block.view.innerHTML = svg;
       // Draw at Mermaid's natural size, but no taller than MAX_HEIGHT; CSS shrinks it to fit the column.
       const el = block.view.querySelector('svg');
@@ -41,11 +40,9 @@ function draw(block: Block): Promise<void> {
       p.textContent = `Mermaid could not draw this diagram: ${(e as Error).message ?? e}`;
       block.view.replaceChildren(p);
     }
-    block.drawnFor = theme;
+    block.drawn = true;
     block.view.classList.remove('is-loading');
     block.drawing = undefined;
-    // The theme may have changed while drawing.
-    if (block.drawnFor !== siteTheme()) await draw(block);
   })();
   return block.drawing;
 }
@@ -53,7 +50,7 @@ function draw(block: Block): Promise<void> {
 function show(block: Block, which: 'code' | 'preview') {
   if (block.showing === which) return;
   // Keep the block at least as tall as the code while the diagram loads, so the page does not jump.
-  if (which === 'preview' && block.drawnFor !== siteTheme()) block.view.style.minHeight = `${block.pre.offsetHeight}px`;
+  if (which === 'preview' && !block.drawn) block.view.style.minHeight = `${block.pre.offsetHeight}px`;
   block.showing = which;
   block.wrap.dataset.showing = which;
   for (const tab of block.tabs) {
@@ -141,12 +138,3 @@ if (blocks.length > 0 && 'IntersectionObserver' in window) {
   );
   for (const b of blocks) io.observe(b.wrap);
 }
-
-// Redraw diagrams when the site theme changes.
-onThemeChange(() => {
-  for (const b of blocks) {
-    if (b.drawnFor === undefined) continue;
-    b.drawnFor = undefined;
-    void draw(b);
-  }
-});

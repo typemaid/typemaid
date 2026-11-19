@@ -122,6 +122,8 @@ function setup(pre: HTMLElement) {
 
 for (const pre of document.querySelectorAll<HTMLElement>('pre.astro-code[data-language="mermaid"]')) setup(pre);
 
+const whenIdle = (fn: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 200));
+
 // Draw each diagram in the background shortly before it scrolls into view.
 if (blocks.length > 0 && 'IntersectionObserver' in window) {
   const byWrap = new Map(blocks.map((b) => [b.wrap, b]));
@@ -131,7 +133,8 @@ if (blocks.length > 0 && 'IntersectionObserver' in window) {
         if (!entry.isIntersecting) continue;
         io.unobserve(entry.target);
         const block = byWrap.get(entry.target as HTMLElement);
-        if (block) void draw(block);
+        // Wait until the browser is idle, so drawing never competes with the page's first paint.
+        if (block) whenIdle(() => void draw(block));
       }
     },
     { rootMargin: '400px 0px' },

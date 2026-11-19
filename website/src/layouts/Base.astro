@@ -16,6 +16,7 @@ const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astr
 const canonical = new URL(pathname, SITE).toString();
 const ogImage = new URL('/og.png', SITE).toString();
 const isDocs = pathname.startsWith('/docs/');
+const isHome = pathname === '/';
 ---
 <!doctype html>
 <html lang="en" data-theme="light">
@@ -64,7 +65,7 @@ const isDocs = pathname.startsWith('/docs/');
     </script>
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
   </head>
-  <body>
+  <body class:list={{ 'is-home': isHome }}>
     <a class="skip" href="#content">Skip to content</a>
     <header class="topbar">
       <div class="topbar-inner">
@@ -94,6 +95,12 @@ const isDocs = pathname.startsWith('/docs/');
 
     <script is:inline>
       (function () {
+        // The top bar shows its bottom border only once the page is scrolled.
+        var topbar = document.querySelector('.topbar');
+        function onScroll() { topbar.classList.toggle('is-scrolled', window.scrollY > 4); }
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+
         // Theme toggle: remembers the choice; otherwise follows the system setting.
         var root = document.documentElement;
         var button = document.querySelector('[data-theme-toggle]');

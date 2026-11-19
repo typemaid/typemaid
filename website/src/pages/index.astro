@@ -6,28 +6,33 @@ import Base from '../layouts/Base.astro';
 import { SITE } from '../lib/nav';
 import { REPO_URL } from '../lib/github';
 
-// The landing page shows the real support-triage example, the same files the test suite runs.
+// The landing page shows the real research-writer example: AI agents that plan, research, write and
+// judge, then a person who approves. The same files the test suite runs.
 // Builds run from website/, so the repository root is one level up.
 const repoRoot = path.resolve(process.cwd(), '..');
 const read = (rel: string) => fs.readFileSync(path.join(repoRoot, rel), 'utf8').trimEnd();
-const diagram = read('examples/triage/triage.mmd');
+const diagram = read('examples/research-writer/research-writer.mmd');
 // The live diagram is the same file, drawn left to right so it fits the stage.
 const stageDiagram = diagram.replace(/^flowchart\s+TD/m, 'flowchart LR');
-// The first steps of the tools file, cut cleanly before `reply`.
-const toolLines = read('examples/triage/tools.ts').split('\n');
-const cut = toolLines.findIndex((line) => line.startsWith('export const reply'));
-const tools = `${toolLines.slice(0, cut).join('\n').trimEnd()}\n\n// … reply, send and closeTicket`;
+// The AI steps of the tools file, cut cleanly before the human step.
+const toolLines = read('examples/research-writer/tools.ts').split('\n');
+const cut = toolLines.findIndex((line) => line.startsWith('// A person approves'));
+const tools = `${toolLines.slice(0, cut).join('\n').trimEnd()}\n\n// … approve (a person) and publish`;
 
-const runCode = `import { run, resume } from 'typemaid';
+const runCode = `import { anthropic } from '@ai-sdk/anthropic';
+import { run, resume } from 'typemaid';
 import { sqliteStore } from 'typemaid/sqlite';
 import * as tools from './tools.ts';
 
+const model = anthropic('claude-haiku-4-5'); // or any AI SDK model
 const store = sqliteStore('./runs.db');
-const result = await run('./triage.mmd', tools, { ticketId: 'T-URGENT' }, { store });
+
+const result = await run('./research-writer.mmd', tools, { topic: 'typed AI workflows' }, { model, store });
+// Agents plan, research in parallel, write; the judge scores until 8+.
 // { status: 'paused', waitingAt: [{ node: 'approve', options: ['approved', 'rejected'] }] }
 
-await resume(result.runId, tools, { decision: 'approved', note: 'on it' }, { store });
-// { status: 'completed', output: { priority: 5, sent: true, ... } }`;
+await resume(result.runId, tools, { decision: 'approved' }, { model, store });
+// { status: 'completed', output: { title, draft, score: 9, url, ... } }`;
 
 // pnpm does not let your code import a peer dependency it installed for typemaid, so Zod is added there.
 const installCommands = [
@@ -58,9 +63,9 @@ const jsonLd = {
 };
 
 const steps = [
-  { n: '01', title: 'Draw', body: 'The flow is a Mermaid flowchart. GitHub, Notion and your editor already draw it.', file: 'triage.mmd', code: diagram, lang: 'mermaid' },
-  { n: '02', title: 'Type', body: 'Each box is an export: a small function with a Zod input and output.', file: 'tools.ts', code: tools, lang: 'ts' },
-  { n: '03', title: 'Run', body: 'One call runs it. Pause for a person, save the run, resume it tomorrow.', file: 'index.ts', code: runCode, lang: 'ts' },
+  { n: '01', title: 'Draw', body: 'The flow is a Mermaid flowchart: AI agents, parallel research, an AI judge loop and a human approval.', file: 'research-writer.mmd', code: diagram, lang: 'mermaid' },
+  { n: '02', title: 'Type', body: 'Each box is an export. Agents get a prompt and a Zod output; tools are plain functions.', file: 'tools.ts', code: tools, lang: 'ts' },
+  { n: '03', title: 'Run', body: 'One call runs it with any model. It pauses for the editor, is saved, and resumes later.', file: 'index.ts', code: runCode, lang: 'ts' },
 ];
 
 const features = [
@@ -102,7 +107,7 @@ const packages = [
           <p class="lede">A TypeScript SDK that turns your Mermaid diagrams into AI workflows. Works with any LLM: OpenAI, Anthropic, Gemini, Ollama, LiteLLM and every AI SDK provider.</p>
           <div class="cta">
             <a class="button primary" href="/docs/getting-started/">Get started</a>
-            <a class="button ghost" href="/docs/examples/support-triage/">Read the example</a>
+            <a class="button ghost" href="/docs/examples/research-writer/">See the AI example</a>
           </div>
           <div class="install" data-install>
             <div class="install-tabs" role="group" aria-label="Package manager">
@@ -121,15 +126,15 @@ const packages = [
       <figure class="flow-window" data-hero-flow data-source={stageDiagram} data-source-narrow={diagram}>
         <div class="window-bar">
           <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="window-title">examples/triage/triage.mmd</span>
+          <span class="window-title">examples/research-writer/research-writer.mmd</span>
           <span class="status" data-status data-kind="running">starting</span>
         </div>
         <div class="window-body">
-          <div class="canvas" data-canvas role="img" aria-label="The support-triage workflow: fetch ticket, classify, and if priority is 4 or more wait for a manager's approval; then draft and send a reply, or close the ticket.">
+          <div class="canvas" data-canvas role="img" aria-label="The research-writer workflow: an AI agent plans a post, two searches run in parallel, an agent writes the draft, an AI judge scores it and it is revised until the score is 8 or more, then an editor approves it before it is published.">
             <div class="canvas-skeleton" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
           </div>
           <aside class="run-log">
-            <p class="run-head">run <strong data-ticket>…</strong></p>
+            <p class="run-head">topic <strong data-ticket>…</strong></p>
             <ol data-log aria-live="off"></ol>
           </aside>
         </div>
@@ -139,7 +144,7 @@ const packages = [
 
     <section class="how">
       <p class="section-kicker">How it works</p>
-      <h2>Three files. That's the whole workflow.</h2>
+      <h2>A real AI workflow in three files.</h2>
       <div class="how-grid">
         {steps.map((s) => (
           <article class="how-step">

@@ -50,6 +50,35 @@ export const sections: Section[] = [
     ],
   },
   {
+    title: 'AI workflows',
+    pages: [
+      {
+        slug: 'models',
+        title: 'Models and providers',
+        description: 'Call AI models from typemaid agent steps and tools with the Vercel AI SDK, and choose the provider package you need.',
+        source: { collection: 'docs', id: 'models' },
+      },
+      {
+        slug: 'examples/research-writer',
+        title: 'AI workflow example',
+        description: 'A full AI workflow: agents plan and write a post, searches run in parallel, an AI judge scores it in a loop, and an editor approves.',
+        source: { collection: 'guide', id: 'examples/research-writer' },
+      },
+      {
+        slug: 'examples/summarize',
+        title: 'Summarize with a model',
+        description: 'A typemaid workflow with an AI agent step that summarizes text into bullet points, with a fake model for tests.',
+        source: { collection: 'guide', id: 'examples/summarize' },
+      },
+      {
+        slug: 'api/ai',
+        title: 'defineAI()',
+        description: 'API reference for defineAI() from typemaid/ai: choose a model once, then use ai.agent, ai.ask and ai.text.',
+        source: { collection: 'guide', id: 'api/ai' },
+      },
+    ],
+  },
+  {
     title: 'Core concepts',
     pages: [
       {
@@ -118,12 +147,6 @@ export const sections: Section[] = [
         source: { collection: 'docs', id: 'stores' },
       },
       {
-        slug: 'models',
-        title: 'Models',
-        description: 'Call AI models from typemaid agent steps and tools with the Vercel AI SDK, and choose the provider package you need.',
-        source: { collection: 'docs', id: 'models' },
-      },
-      {
         slug: 'guides/testing',
         title: 'Testing workflows',
         description: 'Test typemaid workflows without a real model or real waits: fake agent answers, in-memory stores and instant retries.',
@@ -171,12 +194,6 @@ export const sections: Section[] = [
         source: { collection: 'guide', id: 'examples/email-inbox' },
       },
       {
-        slug: 'examples/summarize',
-        title: 'Summarize with a model',
-        description: 'A typemaid workflow with an AI agent step that summarizes text into bullet points, with a fake model for tests.',
-        source: { collection: 'guide', id: 'examples/summarize' },
-      },
-      {
         slug: 'examples/sync',
         title: 'Paged sync (entry points)',
         description: 'A typemaid workflow with two entry points: a paged sync loop and a webhook that feeds items into the same steps.',
@@ -204,12 +221,6 @@ export const sections: Section[] = [
         title: 'tool(), agent(), human()',
         description: 'API reference for the typemaid step helpers tool(), agent() and human(), and the context every tool receives.',
         source: { collection: 'guide', id: 'api/steps' },
-      },
-      {
-        slug: 'api/ai',
-        title: 'defineAI()',
-        description: 'API reference for defineAI() from typemaid/ai: choose a model once, then use ai.agent, ai.ask and ai.text.',
-        source: { collection: 'guide', id: 'api/ai' },
       },
       {
         slug: 'api/compile',

@@ -6,6 +6,7 @@ import * as sync from '../examples/sync/tools.ts';
 import * as triage from '../examples/triage/tools.ts';
 import * as emails from '../examples/emails/tools.ts';
 import * as summarize from '../examples/summarize/tools.ts';
+import * as researchWriter from '../examples/research-writer/tools.ts';
 
 const flow = (name: string) => new URL(`../examples/${name}/${name}.mmd`, import.meta.url);
 
@@ -84,5 +85,38 @@ describe('examples', () => {
     expect(prompts).toHaveLength(3);
     expect(prompts[0]).toContain('Mermaid flowcharts are diagrams written as text');
     expect(prompts[1]).toContain('Your previous answer was not valid');
+  });
+
+  it('research-writer: agents plan, research in parallel, write and get judged, then wait for the editor', async () => {
+    const store = memoryStore();
+    const scores = [6, 9, 8];
+    const calls: string[] = [];
+    const prompts: Record<string, string[]> = {};
+    let drafts = 0;
+    const runAgent = async (request: { node: string; prompt: string }) => {
+      calls.push(request.node);
+      (prompts[request.node] ??= []).push(request.prompt);
+      if (request.node === 'plan') return { title: 'Typed AI workflows', sections: ['Why', 'How', 'Next'], query: 'typed AI workflows' };
+      if (request.node === 'judge') return { score: scores.shift(), feedback: 'Add a runnable example.' };
+      return { draft: `v${++drafts}` };
+    };
+
+    const paused = await run(flow('research-writer'), researchWriter, { topic: 'typed AI workflows' }, { store, runAgent });
+    expect(paused).toMatchObject({ status: 'paused', waitingAt: [{ node: 'approve', label: 'Editor approval', options: ['approved', 'rejected'] }] });
+    expect(calls).toEqual(['plan', 'write', 'judge', 'revise', 'judge']);
+    // The writer saw the results of both parallel searches; the reviser saw the judge's feedback.
+    expect(prompts.write![0]).toContain('Blog posts about typed AI workflows');
+    expect(prompts.write![0]).toContain('Studies on typed AI workflows');
+    expect(prompts.revise![0]).toContain('Add a runnable example.');
+    if (paused.status !== 'paused') return;
+
+    // The editor sends it back with a note; it is revised, judged again, and waits again.
+    const again = await resume(paused.runId, researchWriter, { decision: 'rejected', feedback: 'Shorter intro, please.' }, { store, runAgent });
+    expect(again.status).toBe('paused');
+    expect(prompts.revise![1]).toContain('Shorter intro, please.');
+
+    const done = await resume(again.runId, researchWriter, { decision: 'approved' }, { store, runAgent });
+    expect(done).toMatchObject({ status: 'completed', output: { title: 'Typed AI workflows', score: 8, draft: 'v3', decision: 'approved' } });
+    if (done.status === 'completed') expect(done.output.url).toContain('https://blog.example.com/typed-ai-workflows');
   });
 });

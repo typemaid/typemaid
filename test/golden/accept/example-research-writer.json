@@ -1,0 +1,255 @@
+{
+  "format": 1,
+  "dialect": 1,
+  "hash": "983260e01b794b8c7297f0a9f516383953238d3e51d29fa7b7fcbff7cf5287c0",
+  "entries": [
+    "plan"
+  ],
+  "nodes": {
+    "plan": {
+      "id": "plan",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "agent"
+      ],
+      "out": [
+        0,
+        1
+      ],
+      "line": 2,
+      "column": 3,
+      "label": "Plan the post",
+      "ref": "plan",
+      "route": "fork",
+      "join": "write"
+    },
+    "searchWeb": {
+      "id": "searchWeb",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        2
+      ],
+      "line": 2,
+      "column": 35,
+      "label": "Search the web",
+      "ref": "searchWeb"
+    },
+    "searchPapers": {
+      "id": "searchPapers",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        3
+      ],
+      "line": 3,
+      "column": 12,
+      "label": "Search papers",
+      "ref": "searchPapers"
+    },
+    "write": {
+      "id": "write",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "agent"
+      ],
+      "out": [
+        4
+      ],
+      "line": 4,
+      "column": 17,
+      "label": "Write the draft",
+      "ref": "write"
+    },
+    "judge": {
+      "id": "judge",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "agent"
+      ],
+      "out": [
+        5
+      ],
+      "line": 6,
+      "column": 13,
+      "label": "AI judge",
+      "ref": "judge"
+    },
+    "good": {
+      "id": "good",
+      "kind": "decision",
+      "scope": "",
+      "hints": [],
+      "out": [
+        6,
+        8
+      ],
+      "line": 7,
+      "column": 13,
+      "label": "score >= 8",
+      "cond": {
+        "kind": "expr",
+        "text": "score >= 8",
+        "ast": {
+          "t": "bin",
+          "op": ">=",
+          "l": {
+            "t": "path",
+            "p": [
+              "score"
+            ]
+          },
+          "r": {
+            "t": "lit",
+            "v": 8
+          }
+        }
+      }
+    },
+    "revise": {
+      "id": "revise",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "agent"
+      ],
+      "out": [
+        7
+      ],
+      "line": 8,
+      "column": 23,
+      "label": "Revise the draft",
+      "ref": "revise"
+    },
+    "approve": {
+      "id": "approve",
+      "kind": "step",
+      "scope": "",
+      "hints": [
+        "human"
+      ],
+      "out": [
+        9,
+        11
+      ],
+      "line": 10,
+      "column": 17,
+      "label": "Editor approval",
+      "ref": "approve",
+      "route": "choice"
+    },
+    "publish": {
+      "id": "publish",
+      "kind": "step",
+      "scope": "",
+      "hints": [],
+      "out": [
+        10
+      ],
+      "line": 11,
+      "column": 25,
+      "label": "Publish",
+      "ref": "publish"
+    },
+    "done": {
+      "id": "done",
+      "kind": "marker",
+      "scope": "",
+      "hints": [],
+      "out": [],
+      "line": 11,
+      "column": 46,
+      "label": "Done"
+    }
+  },
+  "edges": [
+    {
+      "from": "plan",
+      "to": "searchWeb",
+      "line": 2,
+      "column": 31
+    },
+    {
+      "from": "plan",
+      "to": "searchPapers",
+      "line": 3,
+      "column": 8
+    },
+    {
+      "from": "searchWeb",
+      "to": "write",
+      "line": 4,
+      "column": 13
+    },
+    {
+      "from": "searchPapers",
+      "to": "write",
+      "line": 5,
+      "column": 16
+    },
+    {
+      "from": "write",
+      "to": "judge",
+      "line": 6,
+      "column": 9
+    },
+    {
+      "from": "judge",
+      "to": "good",
+      "line": 7,
+      "column": 9
+    },
+    {
+      "from": "good",
+      "to": "revise",
+      "line": 8,
+      "column": 8,
+      "branch": "no",
+      "max": 3
+    },
+    {
+      "from": "revise",
+      "to": "judge",
+      "line": 9,
+      "column": 10
+    },
+    {
+      "from": "good",
+      "to": "approve",
+      "line": 10,
+      "column": 8,
+      "branch": "yes"
+    },
+    {
+      "from": "approve",
+      "to": "publish",
+      "line": 11,
+      "column": 11,
+      "branch": "approved"
+    },
+    {
+      "from": "publish",
+      "to": "done",
+      "line": 11,
+      "column": 42
+    },
+    {
+      "from": "approve",
+      "to": "revise",
+      "line": 12,
+      "column": 11,
+      "branch": "rejected",
+      "max": 2,
+      "resets": [
+        6
+      ]
+    }
+  ],
+  "foreach": {},
+  "file": "examples/research-writer/research-writer.mmd"
+}

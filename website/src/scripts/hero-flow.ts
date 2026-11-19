@@ -1,42 +1,62 @@
-// The landing page's live diagram: draws examples/triage/triage.mmd with Mermaid, then plays
-// runs through it. A light travels along each arrow, steps light up as they run, and the run
-// pauses at the human step for a decision, like a real typemaid run.
+// The landing page's live diagram: draws examples/research-writer/research-writer.mmd with Mermaid,
+// then plays runs through it. AI agents plan, research in parallel, write and get scored by an AI
+// judge; the run loops until the score is high enough, then pauses for the editor, like a real run.
 import { renderMermaid } from './mermaid';
 
-interface Run {
-  ticket: string;
-  path: string[];
-  /** Short result shown in the log next to a step. */
-  notes: Record<string, string>;
-  /** The decision taken at the human step, if the run passes it. */
+/** One step of a run: a single node, or several that run at the same time. */
+interface Step {
+  name: string | string[];
+  /** Short result shown in the log, one per node. */
+  note?: string | string[];
+  /** The editor's decision, for the human step. */
   decision?: 'approved' | 'rejected';
-  end: string;
 }
+
+interface Run {
+  topic: string;
+  steps: Step[];
+}
+
+const research: Step[] = [
+  { name: 'plan', note: 'title + 3 sections' },
+  { name: ['searchWeb', 'searchPapers'], note: ['4 sources', '2 papers'] },
+  { name: 'write', note: 'draft v1' },
+];
 
 const RUNS: Run[] = [
   {
-    ticket: 'T-1042',
-    path: ['fetchTicket', 'classify', 'urgent', 'reply', 'send', 'done'],
-    notes: { fetchTicket: 'ticket loaded', classify: 'priority: 2', urgent: 'no', reply: 'draft ready', send: 'sent: true' },
-    end: 'completed',
+    topic: 'typed AI workflows',
+    steps: [
+      ...research,
+      { name: 'judge', note: 'score: 6' },
+      { name: 'good', note: 'no' },
+      { name: 'revise', note: 'draft v2' },
+      { name: 'judge', note: 'score: 9' },
+      { name: 'good', note: 'yes' },
+      { name: 'approve', decision: 'approved' },
+      { name: 'publish', note: 'url ready' },
+      { name: 'done' },
+    ],
   },
   {
-    ticket: 'T-URGENT',
-    path: ['fetchTicket', 'classify', 'urgent', 'approve', 'reply', 'send', 'done'],
-    notes: { fetchTicket: 'ticket loaded', classify: 'priority: 5', urgent: 'yes', reply: 'draft ready', send: 'sent: true' },
-    decision: 'approved',
-    end: 'completed',
-  },
-  {
-    ticket: 'T-0099',
-    path: ['fetchTicket', 'classify', 'urgent', 'approve', 'closeTicket', 'closed'],
-    notes: { fetchTicket: 'ticket loaded', classify: 'priority: 4', urgent: 'yes', closeTicket: 'closed: true' },
-    decision: 'rejected',
-    end: 'closed',
+    topic: 'durable agents',
+    steps: [
+      ...research,
+      { name: 'judge', note: 'score: 8' },
+      { name: 'good', note: 'yes' },
+      { name: 'approve', decision: 'rejected' },
+      { name: 'revise', note: 'draft v2' },
+      { name: 'judge', note: 'score: 9' },
+      { name: 'good', note: 'yes' },
+      { name: 'approve', decision: 'approved' },
+      { name: 'publish', note: 'url ready' },
+      { name: 'done' },
+    ],
   },
 ];
 
-const ENDS = new Set(['done', 'closed']);
+const names = (step: Step) => (Array.isArray(step.name) ? step.name : [step.name]);
+const notes = (step: Step) => (Array.isArray(step.note) ? step.note : [step.note ?? '']);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const root = document.querySelector<HTMLElement>('[data-hero-flow]');
@@ -46,7 +66,7 @@ async function start(root: HTMLElement) {
   const canvas = root.querySelector<HTMLElement>('[data-canvas]')!;
   const log = root.querySelector<HTMLElement>('[data-log]')!;
   const status = root.querySelector<HTMLElement>('[data-status]')!;
-  const ticket = root.querySelector<HTMLElement>('[data-ticket]')!;
+  const topic = root.querySelector<HTMLElement>('[data-ticket]')!;
   // Left to right on wide screens; the file's own top-to-bottom layout on phones.
   const narrow = matchMedia('(max-width: 700px)').matches;
   const source = (narrow ? root.dataset.sourceNarrow! : root.dataset.source!).trim();
@@ -95,7 +115,7 @@ async function start(root: HTMLElement) {
 
   if (reduced) {
     // No motion: show a finished run.
-    for (const n of RUNS[1]!.path) node(n)?.classList.add('is-done');
+    for (const step of RUNS[0]!.steps) for (const n of names(step)) node(n)?.classList.add('is-done');
     setStatus('completed', 'completed');
     return;
   }
@@ -133,44 +153,54 @@ async function start(root: HTMLElement) {
   for (let i = 0; ; i = (i + 1) % RUNS.length) {
     const run = RUNS[i]!;
     reset();
-    ticket.textContent = run.ticket;
+    topic.textContent = run.topic;
     setStatus('running', 'running');
     await sleep(500);
 
-    for (let s = 0; s < run.path.length; s++) {
-      const name = run.path[s]!;
-      const g = node(name);
-      g?.classList.add('is-active');
+    for (let s = 0; s < run.steps.length; s++) {
+      const step = run.steps[s]!;
+      const here = names(step);
+      // A node that runs again starts fresh.
+      for (const n of here) node(n)?.classList.remove('is-done');
+      for (const n of here) node(n)?.classList.add('is-active');
 
-      if (ENDS.has(name)) {
-        g?.classList.replace('is-active', 'is-done');
-        setStatus(run.end, run.end === 'closed' ? 'closed' : 'completed');
-        line(run.end, 'ok', `run ${run.ticket}`);
+      if (here[0] === 'done') {
+        node('done')?.classList.replace('is-active', 'is-done');
+        setStatus('completed', 'completed');
+        line('completed', 'ok', run.topic);
         break;
       }
 
-      if (name === 'approve' && run.decision) {
+      if (step.decision) {
+        const g = node(here[0]!);
         g?.classList.add('is-waiting');
-        setStatus('paused · waiting for a manager', 'paused');
-        const row = line(name, 'wait', 'waiting for a person…');
+        setStatus('paused · waiting for the editor', 'paused');
+        const row = line(here[0]!, 'wait', 'waiting for a person…');
         await sleep(1900);
         g?.classList.remove('is-waiting');
         setStatus('resumed', 'running');
         row.dataset.state = 'ok';
-        row.querySelector('.note')!.textContent = `decision: ${run.decision}`;
+        row.querySelector('.note')!.textContent = `decision: ${step.decision}`;
       } else {
-        const row = line(name, 'run');
-        await sleep(name === 'urgent' ? 350 : 650);
-        row.dataset.state = 'ok';
-        row.querySelector('.note')!.textContent = run.notes[name] ?? '';
+        // Parallel steps run side by side and finish together.
+        const rows = here.map((n) => line(n, 'run'));
+        await sleep(here[0] === 'good' ? 350 : 750);
+        rows.forEach((row, k) => {
+          row.dataset.state = 'ok';
+          row.querySelector('.note')!.textContent = notes(step)[k] ?? '';
+        });
       }
-      g?.classList.replace('is-active', 'is-done');
+      for (const n of here) node(n)?.classList.replace('is-active', 'is-done');
 
-      const next = run.path[s + 1];
-      const arrow = next && edge(name, next);
-      if (arrow) {
-        await ready();
-        await travel(arrow, 700);
+      // Light every arrow from this step to the next one, at the same time.
+      const next = run.steps[s + 1];
+      if (next) {
+        const target = step.decision ? (step.decision === 'approved' ? ['publish'] : ['revise']) : names(next);
+        const arrows = here.flatMap((from) => target.map((to) => edge(from, to))).filter((p): p is SVGPathElement => !!p);
+        if (arrows.length > 0) {
+          await ready();
+          await Promise.all(arrows.map((p) => travel(p, 700)));
+        }
       }
     }
     await sleep(2600);

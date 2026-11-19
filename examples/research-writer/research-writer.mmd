@@ -1,0 +1,12 @@
+flowchart TD
+  plan[Plan the post]:::agent --> searchWeb[Search the web]
+  plan --> searchPapers[Search papers]
+  searchWeb --> write[Write the draft]:::agent
+  searchPapers --> write
+  write --> judge[AI judge]:::agent
+  judge --> good{"score >= 8"}
+  good -->|no, max 3| revise[Revise the draft]:::agent
+  revise --> judge
+  good -->|yes| approve{{Editor approval}}:::human
+  approve -->|approved| publish[Publish] --> done([Done])
+  approve -->|rejected, max 2| revise

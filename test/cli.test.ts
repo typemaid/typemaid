@@ -30,7 +30,7 @@ describe('command line (built package, separate processes)', () => {
     const out = await flow('check', 'examples');
     expect(out.code).toBe(0);
     expect(out.stdout).toContain('ok    examples/hello/hello.mmd  (with examples/hello/tools.ts)');
-    expect(out.stdout).toMatch(/6 files checked: 0 errors, 1 warning\./);
+    expect(out.stdout).toMatch(/7 files checked: 0 errors, 1 warning\./);
   });
 
   it('check: reports problems with file, line and fix, and exits 1', async () => {

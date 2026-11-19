@@ -37,8 +37,8 @@ describe('viewer data (the contract)', () => {
   it('describes every example workflow', async () => {
     const source = await fileSource({ paths: [examples], watch: false });
     const list = await source.listFlows();
-    expect(list.flows.map((f) => f.file)).toEqual(['emails/emails.mmd', 'hello/hello.mmd', 'review-loop/review-loop.mmd', 'summarize/summarize.mmd', 'sync/sync.mmd', 'triage/triage.mmd']);
-    expect(list.flows.map((f) => f.title)).toEqual(['Emails', 'Hello', 'Review loop', 'Summarize', 'Sync', 'Triage']);
+    expect(list.flows.map((f) => f.file)).toEqual(['emails/emails.mmd', 'hello/hello.mmd', 'research-writer/research-writer.mmd', 'review-loop/review-loop.mmd', 'summarize/summarize.mmd', 'sync/sync.mmd', 'triage/triage.mmd']);
+    expect(list.flows.map((f) => f.title)).toEqual(['Emails', 'Hello', 'Research writer', 'Review loop', 'Summarize', 'Sync', 'Triage']);
     for (const f of list.flows) {
       expect(f.id).toMatch(/^[A-Za-z0-9_-]+$/);
       expect(f.errors).toBe(0);
@@ -145,7 +145,7 @@ describe('viewer handler', () => {
     const meta = (await (await get(handler, '/api/v1/meta')).json()) as Meta;
     expect(meta.schemaVersion).toBe(1);
     const list = (await (await get(handler, '/api/v1/flows')).json()) as FlowList;
-    expect(list.flows).toHaveLength(6);
+    expect(list.flows).toHaveLength(7);
     const response = await get(handler, `/api/v1/flows/${list.flows[1]!.id}`);
     expect(response.headers.get('cache-control')).toBe('no-store');
     expect(((await response.json()) as FlowView).title).toBe('Hello');
@@ -205,7 +205,7 @@ describe('view()', () => {
     expect(page).toContain('"apiBase": "api/v1"');
     const script = /src="\.\/([^"]+\.js)"/.exec(page)![1]!;
     expect((await fetch(`${server.url}${script}`)).headers.get('content-type')).toContain('javascript');
-    expect(((await (await fetch(`${server.url}api/v1/flows`)).json()) as FlowList).flows).toHaveLength(6);
+    expect(((await (await fetch(`${server.url}api/v1/flows`)).json()) as FlowList).flows).toHaveLength(7);
     await server.close();
     await expect(fetch(server.url)).rejects.toThrow();
   });

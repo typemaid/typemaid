@@ -4,6 +4,14 @@
   "description": "A local page that draws your typemaid workflows and shows what each step reads and writes.",
   "license": "FSL-1.1-MIT",
   "homepage": "https://typemaid.pages.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typemaid/typemaid.git",
+    "directory": "packages/view"
+  },
+  "bugs": {
+    "url": "https://github.com/typemaid/typemaid/issues"
+  },
   "author": "HITESH CHAWLA",
   "type": "module",
   "engines": {

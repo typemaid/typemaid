@@ -1,9 +1,16 @@
 {
   "name": "typemaid",
   "version": "0.27.1",
-  "description": "Draw a workflow as a Mermaid flowchart, write the steps as typed functions, and run it.",
+  "description": "Transform your Mermaid diagrams into AI workflows: typed TypeScript steps, any LLM through the Vercel AI SDK, human approval, retries and durable runs.",
   "license": "FSL-1.1-MIT",
   "homepage": "https://typemaid.pages.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typemaid/typemaid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/typemaid/typemaid/issues"
+  },
   "author": "HITESH CHAWLA",
   "type": "module",
   "workspaces": [
@@ -89,6 +96,13 @@
     "agents",
     "ai",
     "zod",
-    "typescript"
+    "typescript",
+    "llm",
+    "ai-sdk",
+    "ai-agents",
+    "workflow-engine",
+    "human-in-the-loop",
+    "litellm",
+    "ollama"
   ]
 }

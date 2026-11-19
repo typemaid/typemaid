@@ -1,12 +1,77 @@
 <p align="center">
-  <img src="https://typemaid.pages.dev/docs/logo.svg" alt="typemaid" width="320">
+  <a href="https://typemaid.pages.dev"><img src="https://typemaid.pages.dev/docs/logo.svg" alt="TypeMaid" width="280"></a>
 </p>
 
-<h1 align="center">typemaid</h1>
+<h1 align="center">TypeMaid</h1>
 
 <p align="center">
-  Draw a workflow as a Mermaid flowchart, write the steps as typed functions, and run it.
+  <b>Transform your Mermaid diagrams into AI workflows.</b><br>
+  A TypeScript SDK: draw the flow, type each step, and run it with any LLM.
 </p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/typemaid"><img src="https://img.shields.io/npm/v/typemaid?color=3178c6&label=npm" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/typemaid"><img src="https://img.shields.io/npm/dm/typemaid?color=3178c6" alt="npm downloads"></a>
+  <a href="https://github.com/typemaid/typemaid/stargazers"><img src="https://img.shields.io/github/stars/typemaid/typemaid?style=flat&color=e3b341" alt="GitHub stars"></a>
+  <img src="https://img.shields.io/badge/TypeScript-strict-3178c6" alt="TypeScript">
+  <a href="https://typemaid.pages.dev/docs/models/#providers"><img src="https://img.shields.io/badge/AI%20SDK-any%20LLM-000000" alt="Any LLM through the Vercel AI SDK"></a>
+  <a href="https://github.com/typemaid/typemaid/blob/main/LICENSE.md"><img src="https://img.shields.io/badge/license-FSL--1.1--MIT-555555" alt="FSL-1.1-MIT licence"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/typemaid/typemaid/blob/main/.github/media/typemaid-launch.mp4">
+    <img src="https://raw.githubusercontent.com/typemaid/typemaid/main/.github/media/typemaid-demo.gif" width="640" alt="An AI workflow running in TypeMaid: an agent plans a post, two searches run in parallel, an AI judge scores the draft until it is good, and the run pauses for an editor before publishing">
+  </a>
+  <br>
+  <sub>▶ <a href="https://github.com/typemaid/typemaid/blob/main/.github/media/typemaid-launch.mp4">Watch the 40-second launch video with sound</a></sub>
+</p>
+
+<p align="center">
+  <a href="https://typemaid.pages.dev"><b>Website</b></a> ·
+  <a href="https://typemaid.pages.dev/docs/getting-started/"><b>Quickstart</b></a> ·
+  <a href="https://typemaid.pages.dev/docs/examples/research-writer/"><b>AI example</b></a> ·
+  <a href="https://typemaid.pages.dev/docs/models/#providers"><b>Providers</b></a> ·
+  <a href="https://typemaid.pages.dev/docs/"><b>Docs</b></a>
+</p>
+
+## A real AI workflow
+
+The diagram is the program. Agents plan and write, two searches run at the same time, an AI judge scores the draft until it is good enough, and an editor approves it:
+
+```mermaid
+flowchart TD
+  plan[Plan the post]:::agent --> searchWeb[Search the web]
+  plan --> searchPapers[Search papers]
+  searchWeb --> write[Write the draft]:::agent
+  searchPapers --> write
+  write --> judge[AI judge]:::agent
+  judge --> good{"score >= 8"}
+  good -->|no, max 3| revise[Revise the draft]:::agent
+  revise --> judge
+  good -->|yes| approve{{Editor approval}}:::human
+  approve -->|approved| publish[Publish] --> done([Done])
+  approve -->|rejected, max 2| revise
+```
+
+Each box is a typed export. An agent is a prompt and a Zod schema for the answer:
+
+```ts
+export const judge = agent({
+  instructions: 'You are a strict editor. Score drafts from 1 to 10.',
+  prompt: 'Score this draft and say what to improve:\n\n{draft}',
+  output: z.object({ score: z.number(), feedback: z.string() }),
+});
+```
+
+Run it with any AI SDK model: OpenAI, Anthropic, Gemini, Ollama, LiteLLM and more. It pauses for the editor, is saved, and resumes later:
+
+```ts
+const result = await run('./research-writer.mmd', tools, { topic: 'typed AI workflows' }, { model: openai('gpt-5-mini'), store });
+// { status: 'paused', waitingAt: [{ node: 'approve', options: ['approved', 'rejected'] }] }
+await resume(result.runId, tools, { decision: 'approved' }, { model: openai('gpt-5-mini'), store });
+```
+
+The full example, with its tests: [`examples/research-writer`](https://github.com/typemaid/typemaid/tree/main/examples/research-writer).
 
 ## Overview
 
@@ -15,7 +80,7 @@ typemaid runs workflows whose shape you can see. The flow lives in a `.mmd` file
 - **The diagram is the program.** Branches, loops, parallel steps and for-each blocks are written in Mermaid. The control flow is compiled to plain JSON, so no model decides which step runs next.
 - **Typed steps.** Each step declares its input and output with Zod. Problems in the diagram or the tools are reported before anything runs, with file, line and a suggested fix.
 - **Pause and resume.** A run can wait for a person, be saved to SQLite, Postgres or libSQL, and continue later, even in another process.
-- **Model calls where you want them.** Agent steps and model calls inside tools use the Vercel AI SDK, so any provider it supports works.
+- **Any LLM.** Agent steps and model calls inside tools use the Vercel AI SDK, so any provider it supports works: OpenAI, Anthropic, Gemini, Ollama, LiteLLM and more.
 - **A viewer.** `typemaid view` opens a local, read-only page that draws your workflows, lists their steps and shows problems.
 
 ```

@@ -4,6 +4,14 @@
   "description": "Saves typemaid runs in libSQL or Turso, so paused and failed runs survive restarts and can be shared by several servers.",
   "license": "FSL-1.1-MIT",
   "homepage": "https://typemaid.pages.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typemaid/typemaid.git",
+    "directory": "packages/libsql"
+  },
+  "bugs": {
+    "url": "https://github.com/typemaid/typemaid/issues"
+  },
   "author": "HITESH CHAWLA",
   "type": "module",
   "engines": {

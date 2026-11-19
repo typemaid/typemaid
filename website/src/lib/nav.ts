@@ -82,6 +82,12 @@ export const sections: Section[] = [
         description: 'What run() returns: completed, paused or failed results, run IDs, the output fields, events, cancelling and run limits.',
         source: { collection: 'guide', id: 'concepts/runs' },
       },
+      {
+        slug: 'concepts/how-it-works',
+        title: 'How it works',
+        description: 'The ideas behind typemaid: a compiled graph with capped loops, end-to-end types, deterministic routing, durable runs and one writer per run.',
+        source: { collection: 'guide', id: 'concepts/how-it-works' },
+      },
     ],
   },
   {

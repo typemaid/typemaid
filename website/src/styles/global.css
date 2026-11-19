@@ -346,26 +346,38 @@ pre.astro-code code { background: none; padding: 0; font-size: inherit; }
 .next-links a:hover { color: var(--accent); }
 .footer { border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 14px; padding: 28px 24px; }
 
-/* Mermaid previews in the docs */
-.code-wrap .preview-toggle {
-  position: absolute; top: 8px; right: 66px; z-index: 2; padding: 3px 10px; border-radius: 6px; font: inherit; font-size: 12px; font-weight: 600;
-  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); background: var(--accent-soft); color: var(--accent-ink); cursor: pointer;
+/* Mermaid flowcharts in the docs: a Code / Preview tab bar above the code or the drawn diagram. */
+.diagram-tabs {
+  display: flex; gap: 2px; padding: 5px; border: 1px solid var(--line); border-bottom: 0;
+  border-radius: 10px 10px 0 0; background: var(--bg-muted);
 }
-.code-wrap .preview-toggle:hover { border-color: var(--accent); }
-.code-wrap.is-previewing .copy { display: none; }
-.code-wrap.is-previewing .preview-toggle { right: 8px; }
+.code-title + .code-wrap .diagram-tabs { border-radius: 0; }
+.diagram-tab {
+  padding: 4px 12px; border: 0; border-radius: 6px; background: transparent; cursor: pointer;
+  font: inherit; font-size: 12.5px; font-weight: 600; color: var(--muted);
+  transition: color 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+.diagram-tab:hover { color: var(--ink); }
+.diagram-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.diagram-tab[aria-selected="true"] { background: var(--bg); color: var(--ink); box-shadow: 0 0 0 1px var(--line), 0 1px 2px rgba(15, 23, 42, 0.06); }
+.code-wrap.is-diagram pre.astro-code { border-top-left-radius: 0; border-top-right-radius: 0; }
+.code-wrap.is-diagram .copy { top: 6px; right: 6px; }
+.code-wrap.is-diagram[data-showing="preview"] .copy { display: none; }
+.code-wrap.is-diagram > pre[hidden], .diagram-view[hidden] { display: none; }
+.code-wrap.is-diagram > pre:not([hidden]), .diagram-view:not([hidden]) { animation: panel-in 0.18s ease-out; }
+@keyframes panel-in { from { opacity: 0; } }
 .diagram-view {
-  display: flex; justify-content: center; padding: 28px 16px 20px; margin: 0 0 20px; min-height: 120px;
-  border: 1px solid var(--line); border-radius: 10px; background: var(--bg-soft); overflow-x: auto;
+  display: flex; align-items: center; justify-content: center; padding: 24px 16px; min-height: 120px;
+  border: 1px solid var(--line); border-radius: 0 0 10px 10px; background: var(--bg-soft); overflow-x: auto;
 }
-.code-title + .code-wrap .diagram-view { border-top-left-radius: 0; border-top-right-radius: 0; }
 .diagram-view svg { max-width: 100%; height: auto; }
 .diagram-view .node.human rect, .diagram-view .node.human polygon { stroke-dasharray: 5 4; }
-.diagram-view.is-loading { background: linear-gradient(90deg, var(--bg-soft), var(--bg-muted), var(--bg-soft)); background-size: 200% 100%; animation: skeleton 1.4s linear infinite; }
+.diagram-view.is-loading:empty { background: linear-gradient(90deg, var(--bg-soft), var(--bg-muted), var(--bg-soft)); background-size: 200% 100%; animation: skeleton 1.4s linear infinite; }
 .diagram-error { margin: 0; color: #dc2626; font-size: 14px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .shine, .status::before, .canvas-skeleton i, .run-log li { animation: none; }
+  .shine, .status::before, .canvas-skeleton i, .run-log li, .diagram-view, .code-wrap.is-diagram > pre { animation: none; }
+  .diagram-tab { transition: none; }
 }
 
 /* Page actions: Copy page, View as Markdown, Open in ... */

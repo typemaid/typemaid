@@ -1,6 +1,10 @@
-// Renders Mermaid diagrams in the browser. Mermaid is large, so it is loaded only when a
-// page actually draws a diagram, and renders run one at a time (each can use its own colours).
+// Renders Mermaid diagrams in the browser. Mermaid is large, so it is loaded from the jsDelivr CDN
+// only when a page actually draws a diagram, and renders run one at a time (each can use its own colours).
 import type { Mermaid, MermaidConfig } from 'mermaid';
+
+/** Keep this version equal to the `mermaid` version in package.json (a unit test checks it). */
+export const MERMAID_VERSION = '12.3.0';
+export const MERMAID_URL = `https://cdn.jsdelivr.net/npm/mermaid@${MERMAID_VERSION}/dist/mermaid.esm.min.mjs`;
 
 export type DiagramTheme = 'light' | 'dark' | 'stage';
 
@@ -42,9 +46,15 @@ let mermaid: Promise<Mermaid> | undefined;
 let queue: Promise<unknown> = Promise.resolve();
 let count = 0;
 
+/** Starts downloading Mermaid early, for example when a diagram is about to scroll into view. */
+export function loadMermaid(): Promise<Mermaid> {
+  mermaid ??= import(/* @vite-ignore */ MERMAID_URL).then((m: { default: Mermaid }) => m.default);
+  return mermaid;
+}
+
 /** Renders Mermaid source to an SVG string. Throws with Mermaid's message if it cannot draw it. */
 export function renderMermaid(source: string, theme: DiagramTheme): Promise<string> {
-  mermaid ??= import('mermaid').then((m) => m.default);
+  mermaid ??= loadMermaid();
   const job = queue.then(async () => {
     const m = await mermaid!;
     const stage = theme === 'stage';

@@ -101,11 +101,11 @@ describe('docs layout', () => {
 });
 
 describe('content', () => {
-  it('shows the TM mark and the typemaid wordmark in the header, and links the favicons', () => {
+  it('shows the TM mark and the TypeMaid wordmark in the header, and links the favicons', () => {
     for (const route of allRoutes) {
       const { $ } = loadPage(route);
       expect($('.wordmark svg.mark text').text(), route).toBe('TM');
-      expect($('.wordmark .word').text(), route).toBe('typemaid');
+      expect($('.wordmark .word').text(), route).toBe('TypeMaid');
       for (const href of ['/favicon.ico', '/favicon.svg']) expect($(`link[rel="icon"][href="${href}"]`).length, route).toBe(1);
       expect($('link[rel="apple-touch-icon"]').attr('href'), route).toBe('/apple-touch-icon.png');
     }
@@ -120,5 +120,38 @@ describe('content', () => {
         if (src.startsWith('/')) expect(fs.existsSync(path.join(dist, src)), `${route} -> ${src}`).toBe(true);
       });
     }
+  });
+});
+
+describe('top bar and loading', () => {
+  it('links to the GitHub repository with a star button on every page', () => {
+    for (const route of allRoutes) {
+      const { $ } = loadPage(route);
+      const link = $('header .github');
+      expect(link.attr('href'), route).toBe('https://github.com/typemaid/typemaid');
+      expect(link.attr('aria-label'), route).toMatch(/GitHub/);
+      expect(link.find('.github-star').text().trim(), route).toMatch(/^(Star|\d+(\.\d)?k?)$/);
+    }
+  });
+
+  it('puts the site CSS in the page and loads no stylesheet before the first paint', () => {
+    for (const route of allRoutes) {
+      const { $ } = loadPage(route);
+      expect($('head link[rel="stylesheet"]').length, route).toBe(0);
+      expect($('head style').text().length, route).toBeGreaterThan(1000);
+    }
+  });
+
+  it('shows a plain search box and loads Pagefind only when it is used', () => {
+    for (const route of allRoutes) {
+      const { $ } = loadPage(route);
+      expect($('#search [data-search-stub]').attr('aria-label'), route).toBe('Search docs');
+      expect($('script[src*="pagefind"]').length, route).toBe(0);
+    }
+  });
+
+  it('caches hashed assets for a year', () => {
+    const headers = fs.readFileSync(path.join(dist, '_headers'), 'utf8');
+    expect(headers).toMatch(/\/_astro\/\*\n\s+Cache-Control: public, max-age=31536000, immutable/);
   });
 });

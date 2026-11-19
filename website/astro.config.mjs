@@ -15,6 +15,10 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   integrations: [sitemap()],
+  // Put the site's CSS in each page, so the first paint needs no extra request.
+  build: { inlineStylesheets: 'always' },
+  // Fetch a page when the pointer rests on a link to it, so clicking feels instant.
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   markdown: {
     processor: unified({
       remarkPlugins: [

@@ -74,6 +74,26 @@ a:hover { text-decoration: underline; }
 }
 .search .pagefind-ui__drawer:not(:has(.pagefind-ui__result)) { padding-bottom: 4px; }
 .search .pagefind-ui__drawer:empty { display: none; }
+.search .pagefind-ui__search-clear { background: transparent; border: 0; color: var(--muted); }
+.search .pagefind-ui__search-clear:hover { color: var(--ink); }
+.search mark { background: #3a2f0d; color: #ffd866; border-radius: 3px; }
+/* Stands in for the Pagefind box, at the same size, until search loads. */
+.search-stub { position: relative; display: block; }
+.search-stub svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search-stub input {
+  width: 100%; height: 46px; padding: 0 14px 0 39px; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--bg); color: var(--ink); font: inherit; font-size: 15px; font-weight: 700; outline: none; -webkit-appearance: none; appearance: none;
+}
+.search-stub input::placeholder { color: var(--ink); opacity: 0.2; }
+
+/* GitHub link with the star count. */
+.github {
+  display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px;
+  color: var(--ink-soft); font-size: 13.5px; font-weight: 600; white-space: nowrap; transition: border-color 0.15s, color 0.15s;
+}
+.github:hover { color: var(--ink); border-color: #3a3a3a; text-decoration: none; }
+.github-star { display: inline-flex; align-items: center; gap: 4px; padding-left: 8px; border-left: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.github-star svg { color: #e3b341; }
 
 /* ---------- Docs layout ---------- */
 .docs {
@@ -412,6 +432,8 @@ pre.astro-code { background-color: var(--code-bg) !important; }
 }
 @media (max-width: 520px) {
   .search { display: none; }
+  .github-star { display: none; }
+  .github { padding: 0 10px; }
   .hero h1 { font-size: 36px; letter-spacing: -1px; }
   .install { font-size: 12.5px; }
   .package-list li { flex-direction: column; gap: 2px; }
